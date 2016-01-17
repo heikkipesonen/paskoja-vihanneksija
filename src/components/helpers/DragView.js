@@ -48,7 +48,9 @@ class DragView{
 					max:0,
 					tension: true
 				}
-			}
+			},
+
+      setPosition: this.setPosition
 		};
 
 		// very sketchy hax
@@ -65,13 +67,32 @@ class DragView{
 		this.velocity = { x:0,y:0 }; // current event velocity (px/ms)
 
 		// set initial values
-		this.setPosition();
+		this._setPosition();
 
 		// bind to events
 		this.el.addEventListener('touchstart', (evt) => this.dragStart(evt));
 		this.el.addEventListener('touchmove', (evt) => this.dragMove(evt));
 		this.el.addEventListener('touchend', (evt) => this.dragEnd(evt));
+		this.el.addEventListener('transitionend', (evt) => this.transitionend(evt));
   }
+
+  transitionend = () => {
+    console.log('pere');
+  };
+
+  setPosition = (position, duration) => {
+    return new Promise((resolve, reject) => {
+
+      this.options.offset.x = position.x || this.options.offset.x;
+      this.options.offset.y = position.y || this.options.offset.y;
+
+      this._setPosition(duration);
+
+      setTimeout(() => {
+        resolve(this.options.offset);
+      }, duration || 1);
+    });
+  };
 
 	/**
 	 * get cursor position of touch or mouse event
@@ -91,7 +112,7 @@ class DragView{
 	 * @param {int} duration animation duration in milliseconds
 	 * @return {Promise}
 	 */
-	setPosition (duration) {
+	_setPosition (duration) {
 		this.el.style.transition = duration ? duration +'ms' : '0ms';
 		this.el.style.transform = 'translate3d('+this.options.offset.x+'px,'+this.options.offset.y+'px,0)';
 		this.el.style['-webkit-transform'] = 'translate3d('+this.options.offset.x+'px,'+this.options.offset.y+'px,0)';
@@ -239,7 +260,7 @@ class DragView{
 					this.options.offset.y += stepy;
 				}
 
-				this.setPosition();
+				this._setPosition();
 			}
 
 			this.lastEvent = currentPosition;
@@ -256,7 +277,7 @@ class DragView{
 	dragEnd () {
 		this.endTimer();
 		this.lastEvent = false;
-    
+
 		// which position is closes to current?
 		var diffToYMin = Math.abs(this.options.axis.y.min - this.options.offset.y);
 		var diffToYMax = Math.abs(this.options.axis.y.max - this.options.offset.y);
@@ -290,7 +311,7 @@ class DragView{
 		// this.options.offset.y = 0;
 
 		// set element position to zero (css actually overrides this to disable flickering)
-		this.setPosition(this.options.returnAnimationDuration);
+		this._setPosition(this.options.returnAnimationDuration);
 	}
 }
 

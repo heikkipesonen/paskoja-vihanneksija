@@ -42,6 +42,7 @@ class LocationView extends React.Component {
   }
 
   render() {
+    console.log(this.viewOptions)
     return (
       <DraggableView className="location-view" options={this.viewOptions}>
         <ScrollView className="view-content">

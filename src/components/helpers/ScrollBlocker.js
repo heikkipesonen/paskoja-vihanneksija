@@ -47,6 +47,14 @@ class ScrollBlocker {
     this.lastEvent = this.getCursor(evt);
   };
 
+  isAtBottom() {
+    return this.el.scrollTop >= this.el.scrollHeight;
+  }
+
+  isAtTop() {
+    return this.el.scrollTop < 2;
+  }
+
   onTouchMove = (evt) => {
 
     if (evt.touches.length > 1){
@@ -76,6 +84,8 @@ class ScrollBlocker {
      */
     if ( this.direction==='y' && !isAtTop && !isAtBottom ){
       evt.stopPropagation();
+    } else if (isAtTop || isAtBottom) {
+      evt.preventDefault();
     }
   };
 }
