@@ -6,6 +6,7 @@ import React from 'react';
 import View from './View';
 import Map from './map/Map';
 import LocationView from './location/LocationView';
+import Landing from './Landing';
 
 class AppComponent extends React.Component {
 
@@ -37,14 +38,15 @@ class AppComponent extends React.Component {
 
   render() {
     return (
-      <View className="main-view">
-        <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
-        {(()=> {
-          if (this.state.currentLocation) {
-            return (<LocationView location={this.state.currentLocation}></LocationView>);
-          }
-        })()}
-      </View>
+      <Landing></Landing>
+      // <View className="main-view">
+      //   <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
+      //   {(()=> {
+      //     if (this.state.currentLocation) {
+      //       return (<LocationView location={this.state.currentLocation}></LocationView>);
+      //     }
+      //   })()}
+      // </View>
     );
   }
 }

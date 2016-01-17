@@ -17,7 +17,7 @@ class Cart extends React.Component {
 
     this.viewOptions = {
 			leaveAnimationDuration: 300,
-			returnAnimationDuration: 300,      
+			returnAnimationDuration: 300,
       offset: {
         y: window.innerHeight - 50,
         x: 0

@@ -81,7 +81,7 @@ class DragView{
   };
 
   setPosition = (position, duration) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
       this.options.offset.x = position.x || this.options.offset.x;
       this.options.offset.y = position.y || this.options.offset.y;
