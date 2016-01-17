@@ -1,0 +1,9 @@
+$main-color: #c94714;
+
+.location-title{
+  padding: 16px;
+  color: white;
+
+
+  background-color: fade_out($main-color, 0.2);
+}

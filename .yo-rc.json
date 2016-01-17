@@ -1,0 +1,7 @@
+{
+  "generator-react-webpack": {
+    "appName": "lahiruoka",
+    "style": "scss",
+    "postcss": false
+  }
+}

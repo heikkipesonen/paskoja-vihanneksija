@@ -1,0 +1,51 @@
+$main-color: #c94714;
+
+.product-list-item{
+  padding-top: 16px;
+  padding-bottom: 16px;
+  display: flex;
+
+  .product-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  h4{
+    margin: 0;
+  }
+
+}
+.product-price-wrapper{
+  padding-left: 16px;
+}
+
+.product-price{
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.product-unit{
+  font-size: 0.8rem;
+  text-align: right;
+  text-transform: none;
+  opacity: 0.6;
+}
+
+.product-count{
+  padding-right: 16px;
+
+  span{
+    font-weight: 400;
+    border-radius: 50%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background-color: $main-color;
+    width: 40px;
+    height: 40px;
+    color: white;
+  }
+}
