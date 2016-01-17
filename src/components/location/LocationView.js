@@ -22,7 +22,7 @@ class LocationView extends React.Component {
         x:false,
         y:{
           min: 0,
-          max: 0,
+          max: window.innerHeight,
           tension: true
         }
       }

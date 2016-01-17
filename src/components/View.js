@@ -1,5 +1,4 @@
 import React from 'react';
-import ScrollView from './ScrollView';
 
 class View extends React.Component {
   constructor (props) {
@@ -11,9 +10,7 @@ class View extends React.Component {
 
     return (
       <div className={classNames} ref="ViewContainer">
-        <ScrollView>
           {this.props.children}
-        </ScrollView>
       </div>
     );
   }

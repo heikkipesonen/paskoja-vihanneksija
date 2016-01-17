@@ -3,13 +3,32 @@
 @import 'text';
 @import 'layout';
 
-body, html{
-  font-family: 'helvetica neue';
-  font-weight: 100;
-  font-size: 11pt;
+
+.animate{
+  transition: 0.3s;
+  transition: opacity .5s ease-in;
 }
 
-h1,h2,h3,h4 {
-  text-transform: uppercase;
-  font-weight: 400;
+.image-loading{
+  opacity: 0;
+}
+
+.image-ready{
+  opacity: 1;
+}
+
+
+.image-container{
+
+  img{
+    opacity: 0;
+    transition: 0.3s;
+  }
+
+  &.image-ready{
+
+    img{
+      opacity: 1;
+    }
+  }
 }
