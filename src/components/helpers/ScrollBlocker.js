@@ -10,6 +10,11 @@ class ScrollBlocker {
     this.el.addEventListener('touchmove', this.onTouchMove);
   }
 
+  destroy = () => {
+    this.el.removeEventListener('touchstart', this.onTouchStart);
+    this.el.removeEventListener('touchmove', this.onTouchMove);    
+  };
+
   easeInOutQuad(t, b, c, d){
     t /= d/2;
     if (t < 1) return c/2*t*t + b;

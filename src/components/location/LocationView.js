@@ -6,6 +6,7 @@ import ScrollView from '../ScrollView';
 import LocationTitle from './LocationTitle';
 import Cart from './Cart';
 import ProductList from '../product/ProductList';
+import DragView from '../helpers/DragView';
 
 
 class LocationView extends React.Component {
@@ -14,10 +15,13 @@ class LocationView extends React.Component {
 
     this.state = {
       products: [],
-      selectedProducts: []
+      selectedProducts: [],
+      visible: false
     };
 
     this.viewOptions = {
+      leaveAnimationDuration: 300,
+			returnAnimationDuration: 300,
       axis:{
         x:false,
         y:{
@@ -30,7 +34,8 @@ class LocationView extends React.Component {
   }
 
   componentDidMount() {
-    console.log('fuk satan');
+    this.dragView = new DragView(this.refs.draggable, this.viewOptions);
+    this.dragView.setOffset({y: this.viewOptions.axis.y.max}, 0);
 
     fetch('../data/products.json').then((data) => {
       data.json().then((products) => {
@@ -41,18 +46,35 @@ class LocationView extends React.Component {
     });
   }
 
+  componentWillUnmount(){
+    this.draggable.destroy();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.visible === true){
+      this.dragView.setOffset({y: this.viewOptions.axis.y.min}, 300);
+    }
+  }
+
   render() {
-    console.log(this.viewOptions)
+    let classNames = this.props.location ? 'location-theme-' + this.props.location.type + ' ' : '';
+
     return (
-      <DraggableView className="location-view" options={this.viewOptions}>
+      <div ref="draggable" className={classNames + 'location-view'}>
         <ScrollView className="view-content">
-          <LocationTitle location={this.props.location}></LocationTitle>
-          <ProductList products={this.state.products}></ProductList>
+        {(()=>{
+          if (this.props.location) {
+              return ([
+                <LocationTitle key="locationTitle" location={this.props.location}></LocationTitle>,
+                <ProductList key="productList" products={this.state.products}></ProductList>
+              ]);
+            }
+        })()}
         </ScrollView>
         <div className="cart-wrapper">
           <Cart products={this.state.selectedProducts}></Cart>
         </div>
-      </DraggableView>
+      </div>
     );
   }
 

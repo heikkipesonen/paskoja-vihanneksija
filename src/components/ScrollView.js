@@ -7,12 +7,11 @@ class ScrollView extends React.Component {
   }
 
   componentDidMount () {
-    console.log(this.refs.scrollWrapper);
     this.scrollBlocker = new ScrollBlocker(this.refs.scrollWrapper);
   }
 
   componentWillUnmount () {
-
+    this.scrollBlocker.destroy();
   }
 
   render () {

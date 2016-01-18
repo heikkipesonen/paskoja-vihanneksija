@@ -15,7 +15,8 @@ class AppComponent extends React.Component {
 
     this.state = {
       locations: [],
-      currentLocation: null
+      currentLocation: null,
+      locationVisible: false
     };
   }
 
@@ -32,7 +33,8 @@ class AppComponent extends React.Component {
   onLocationClick = (location) => {
     console.log(location);
     this.setState({
-      currentLocation: location
+      currentLocation: location,
+      locationVisible: true
     });
   };
 
@@ -41,11 +43,7 @@ class AppComponent extends React.Component {
       // <Landing></Landing>
       <View className="main-view">
         <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
-        {(()=> {
-          if (this.state.currentLocation) {
-            return (<LocationView location={this.state.currentLocation}></LocationView>);
-          }
-        })()}
+        <LocationView visible={this.state.locationVisible} location={this.state.currentLocation}></LocationView>
       </View>
     );
   }

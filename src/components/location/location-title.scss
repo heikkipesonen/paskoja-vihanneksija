@@ -1,5 +1,9 @@
 $main-color: #c94714;
 
+$color-theme-market: #2c2cff;
+$color-theme-meeting: #00e6f3;
+$color-theme-farm: #ff532c;
+
 .location-title{
   color: white;
 
@@ -22,11 +26,41 @@ $main-color: #c94714;
     background-size: cover;
   }
 
-
   .location-title-text{
     padding: 16px;
     background-color: fade_out($main-color, 0.2);
     z-index: 1;
     position: relative;
+  }
+}
+
+.location-theme-market{
+  .location-title-text{
+    background-color: fade_out($color-theme-market, 0.2);
+  }
+
+  .product-count span, .cart-title{
+    background-color: $color-theme-market;
+  }
+
+}
+
+.location-theme-meeting{
+  .location-title-text{
+    background-color: fade_out($color-theme-meeting, 0.2);
+  }
+
+  .product-count span, .cart-title{
+    background-color: $color-theme-meeting;
+  }
+
+}
+.location-theme-farm{
+  .location-title-text{
+    background-color: fade_out($color-theme-farm, 0.2);
+  }
+
+  .product-count span, .cart-title{
+    background-color: $color-theme-farm;
   }
 }

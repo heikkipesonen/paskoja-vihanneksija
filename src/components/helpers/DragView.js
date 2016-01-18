@@ -28,9 +28,9 @@ class DragView{
 			tension:0.3,
 
 			// animation duration when view leaves
-			leaveAnimationDuration:400,
+			leaveAnimationDuration:300,
 			// animation duration when view returns to its original position
-			returnAnimationDuration:400,
+			returnAnimationDuration:300,
 
 			offset:{
 				x: 0,
@@ -50,7 +50,9 @@ class DragView{
 				}
 			},
 
-      setPosition: this.setPosition
+      animation: 0,
+      $animating: false,
+      $dirty: true
 		};
 
 		// very sketchy hax
@@ -66,32 +68,43 @@ class DragView{
 		this.timer = false;
 		this.velocity = { x:0,y:0 }; // current event velocity (px/ms)
 
-		// set initial values
-		this._setPosition();
 
 		// bind to events
-		this.el.addEventListener('touchstart', (evt) => this.dragStart(evt));
-		this.el.addEventListener('touchmove', (evt) => this.dragMove(evt));
-		this.el.addEventListener('touchend', (evt) => this.dragEnd(evt));
-		this.el.addEventListener('transitionend', (evt) => this.transitionend(evt));
+		this.el.addEventListener('touchstart', this.dragStart);
+		this.el.addEventListener('touchmove', this.dragMove);
+		this.el.addEventListener('touchend', this.dragEnd);
+
+    this._update();
   }
 
-  transitionend = () => {
-    console.log('pere');
+  _update = () => {
+    if (this.options.$dirty) {
+      this._setPosition();
+    }
+    window.requestAnimationFrame(this._update);
   };
 
-  setPosition = (position, duration) => {
-    return new Promise((resolve) => {
+  destroy = () => {
+    window.cancelAnimationFrame(this._update);
+    this.el.removeEventListener('touchstart', this.dragStart);
+		this.el.removeEventListener('touchmove', this.dragMove);
+		this.el.removeEventListener('touchend', this.dragEnd);
+  };
 
-      this.options.offset.x = position.x || this.options.offset.x;
-      this.options.offset.y = position.y || this.options.offset.y;
+  setOffset = (offset, animation) => {
+    if (animation !== undefined) {
+      this.options.animation = animation;
+      this.options.$dirty = true;
+    } else {
+      this.options.animation = false;
+    }
 
-      this._setPosition(duration);
-
-      setTimeout(() => {
-        resolve(this.options.offset);
-      }, duration || 1);
-    });
+    for (var i in offset) {
+      if (this.options.offset[i] !== offset[i]) {
+        this.options.$dirty = true;
+        this.options.offset[i] = offset[i];
+      }
+    }
   };
 
 	/**
@@ -112,7 +125,8 @@ class DragView{
 	 * @param {int} duration animation duration in milliseconds
 	 * @return {Promise}
 	 */
-	_setPosition (duration) {
+	_setPosition () {
+    let duration = this.options.animation;
 		this.el.style.transition = duration ? duration +'ms' : '0ms';
 		this.el.style.transform = 'translate3d('+this.options.offset.x+'px,'+this.options.offset.y+'px,0)';
 		this.el.style['-webkit-transform'] = 'translate3d('+this.options.offset.x+'px,'+this.options.offset.y+'px,0)';
@@ -165,25 +179,21 @@ class DragView{
 	 * @param  {mouse event} evt
 	 * @return {void}
 	 */
-	dragStart (evt) {
-		// var style = window.getComputedStyle(this.el);
-		// this.width = _.parseInt( style.width );
-		// this.height = _.parseInt( style.height );
-		// this.width = this.el.offsetWidth;
-		// this.height = this.el.offsetHeight;
+	dragStart = (evt) => {
 		this.lastEvent = this.getCursor(evt);
 		this.delta.x = 0;
 		this.delta.y = 0;
 		this.velocity.x = 0;
 		this.velocity.y = 0;
 		this.direction = null;
-	}
+	};
+
 	/**
 	 * on drag event
 	 * @param  {mouseevent} evt
 	 * @return {void}
 	 */
-	dragMove (evt) {
+	dragMove = (evt) => {
 		// get current cursor position
 		var currentPosition = this.getCursor(evt);
 
@@ -248,7 +258,8 @@ class DragView{
 					}
 
 					// set offset x if this.direction is horizontal
-					this.options.offset.x += stepx;
+          this.setOffset({x: this.options.offset.x + stepx});
+
 				} else if (this.direction === 'y'){
 
 					// detect hold event on vertical  axis
@@ -257,24 +268,22 @@ class DragView{
 					}
 
 					// set offset y if this.direction is vertical
-					this.options.offset.y += stepy;
+          this.setOffset({y: this.options.offset.y += stepy});
 				}
-
-				this._setPosition();
 			}
 
 			this.lastEvent = currentPosition;
 		} else {
 			this.dragStart(evt);
 		}
-	}
+	};
 
 	/**
 		 * drag ends (mouseup, touchend)
 		 * @param  {mouseevent} evt
 		 * @return {void}
 		 */
-	dragEnd () {
+	dragEnd = () => {
 		this.endTimer();
 		this.lastEvent = false;
 
@@ -299,20 +308,14 @@ class DragView{
 			offsetX = this.velocity.x < 0 ? this.options.axis.x.min : this.options.axis.x.max;
 		}
 
-
-		this.options.offset.x = offsetX;
-		this.options.offset.y = offsetY;
-
-
 		// reset variables (drag end)
 		this.velocity.x = 0;
 		this.velocity.y = 0;
 		// this.options.offset.x = 0;
 		// this.options.offset.y = 0;
 
-		// set element position to zero (css actually overrides this to disable flickering)
-		this._setPosition(this.options.returnAnimationDuration);
-	}
+    this.setOffset({x: offsetX, y: offsetY}, this.options.leaveAnimationDuration);
+	};
 }
 
 export default DragView;

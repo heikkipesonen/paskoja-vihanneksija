@@ -3,6 +3,7 @@ require('./cart.scss');
 import React from 'react';
 import DraggableView from '../DraggableView';
 import ScrollView from '../ScrollView';
+import DragView from '../helpers/DragView';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -39,9 +40,17 @@ class Cart extends React.Component {
     });
   }
 
+  componentDidMount() {
+    this.dragView = new DragView(this.refs.draggable, this.viewOptions);
+  }
+
+  componentWillUnmount(){
+    this.draggable.destroy();
+  }
+
   render() {
     return (
-      <DraggableView className="cart" options={this.viewOptions}>
+      <div className="cart" ref="draggable">
         <div className="cart-title">
           <div className="flex cart-tab">
             {this.state.productCount}
@@ -57,7 +66,7 @@ class Cart extends React.Component {
         <ScrollView className="view-content">
         </ScrollView>
 
-      </DraggableView>
+      </div>
     );
   }
 
