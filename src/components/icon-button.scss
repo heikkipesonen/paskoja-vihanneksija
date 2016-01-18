@@ -1,0 +1,19 @@
+$main-color: #c94714;
+$button-size: 50px;
+
+.icon-button{
+  width: $button-size;
+  height: $button-size;
+  line-height: $button-size;
+  text-align: center;
+  color: $main-color;
+  font-size: 32px;
+
+  margin-left: 8px;
+  margin-right: 8px;
+
+  &.button-round{
+    background-color: white;
+    border-radius: 50%;
+  }
+}

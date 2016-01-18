@@ -38,15 +38,15 @@ class AppComponent extends React.Component {
 
   render() {
     return (
-      <Landing></Landing>
-      // <View className="main-view">
-      //   <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
-      //   {(()=> {
-      //     if (this.state.currentLocation) {
-      //       return (<LocationView location={this.state.currentLocation}></LocationView>);
-      //     }
-      //   })()}
-      // </View>
+      // <Landing></Landing>
+      <View className="main-view">
+        <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
+        {(()=> {
+          if (this.state.currentLocation) {
+            return (<LocationView location={this.state.currentLocation}></LocationView>);
+          }
+        })()}
+      </View>
     );
   }
 }

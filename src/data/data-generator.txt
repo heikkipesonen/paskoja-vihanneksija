@@ -30,3 +30,21 @@
     }
   }
 ]
+
+
+
+[
+  '{{repeat(100)}}',
+  {
+    "id":"{{guid()}}",
+    "location_id":"{{guid()}}",
+    "producer_id":"{{guid()}}",
+    "name":"{{lorem(4, 'words')}}",
+    "description":"{{lorem(1, 'paragraphs')}}",
+    "available":"{{integer(100)}}",
+    "package_size":"{{integer(20)}}",
+    "price":"{{floating(1,100, 2)}}",
+    "unit":"{{random('kg', 'l', 'pcs', 'g')}}",
+    "category":"{{random('Hedelmät', 'Hedelmäsäilykkeet', 'Marjat', 'Mehujuomat', 'Muut hedelmät', 'Omenahedelmät', 'Sitrushedelmät', 'Täysmehut', 'Kasvikset', 'Juuri- ja mukulakasvit', 'Kaalit', 'Kasvissäilykkeet', 'Lehtivihannekset', 'Sienet', 'Sipulikasvikset', 'Vihanneshedelmät', 'Palkokasvit ja pähkinät', 'Palkokasvit', 'Pähkinät, siemenet', 'Soijavalmisteet', 'Perunat', 'Peruna', 'Perunavalmisteet', 'Viljat', 'Kaura, ohra', 'Kuiva leipä', 'Muu vilja', 'Pasta, makaroni', 'Riisi', 'Ruis', 'Tärkkelykset', 'Vehnä', 'Maito', 'Hapanmaitotuotteet', 'Juusto', 'Jäätelö', 'Kerma/ creme', 'Maidot', 'Muu maito', 'Ravintorasvat', 'Eläinrasva', 'Margariini ja rasvalevite <55%', 'Margariini ja rasvalevitteet >55%', 'Muu rasva, rasvavalmisteet', 'Ruoanvalmistus- ja teollisuusrasva', 'Voi, maitorasvaseokset', 'Öljy', 'Muna', 'Kananmunat', 'Muiden lintujen munat', 'Kala', 'Kalat', 'Kalavalmisteet', 'Äyriäiset ja nilviäiset', 'Lihat', 'Elimet', 'Kanalinnut', 'Lammas', 'Lihavalmisteet', 'Makkarat', 'Naudanliha', 'Riista', 'Sianliha', 'Juomat', 'Kahvi', 'Tee', 'Vesi', 'Virvoitusjuomat', 'Alkoholijuomat', 'Muut alkoholijuomat', 'Oluet', 'Viinit', 'Väkevät viinat', 'Sokerit ja makeiset', 'Makeiset', 'Sekalaiset makeat', 'Sokerit, siirapit', 'Suklaa', 'Mausteet', 'Kuivatut mausteet', 'Kuivatut yrtit', 'Maustekastikkeet', 'Valmistusaineet', 'Makeutusaineet', 'Suolat', 'Valmistuksen apuaineet', 'Teolliset ruoat', 'Naposteltavat', 'Ravintovalmisteet', 'Kliiniset ravintovalmisteet', 'Lastenruoat', 'Äidinmaitokorvikkeet ja äidinmaito')}}"
+  }
+]

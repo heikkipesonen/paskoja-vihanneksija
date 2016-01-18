@@ -4,9 +4,16 @@ import React from 'react';
 import Currency from '../Currency';
 
 class ProductListItem extends React.Component {
+
+  onItemClick = (...args) => {
+    if (this.props.onClick) {
+      this.props.onClick(...args);
+    }
+  };
+
   render() {
     return (
-      <div className="product-list-item layout-row">
+      <div className="product-list-item layout-row" onClick={this.onItemClick}>
         <div className="product-count">
           <span>{this.props.product.available}</span>
         </div>
