@@ -1,7 +1,6 @@
 require('./cart.scss');
 
 import React from 'react';
-import DraggableView from '../DraggableView';
 import ScrollView from '../ScrollView';
 import DragView from '../helpers/DragView';
 
