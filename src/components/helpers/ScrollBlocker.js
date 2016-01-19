@@ -1,13 +1,16 @@
 class ScrollBlocker {
-  constructor($element) {
+  constructor($element, model) {
     this.el = $element;
     this.height = 0;
     this.delta = {x:0, y:0};
     this.lastEvent = false;
     this.direction = false;
 
+    this.model = model;
+
     this.el.addEventListener('touchstart', this.onTouchStart);
     this.el.addEventListener('touchmove', this.onTouchMove);
+    this.el.addEventListener('scroll', this.onScroll);
   }
 
   destroy = () => {
@@ -29,6 +32,13 @@ class ScrollBlocker {
       return {x:evt.pageX,y:evt.pageY};
     }
   }
+
+  onScroll = () => {
+    if (this.model) {
+      this.model.y = this.el.scrollTop;
+      this.model.x = this.el.scrollLeft;
+    }
+  };
 
   onTouchStart = (evt) => {
     this.height = this.el.offsetHeight;

@@ -18,6 +18,11 @@ class LocationView extends React.Component {
       visible: false
     };
 
+    this.scrollPosition = {
+      x: 0,
+      y: 0
+    };
+
     this.viewOptions = {
       leaveAnimationDuration: 300,
 			returnAnimationDuration: 300,
@@ -57,10 +62,10 @@ class LocationView extends React.Component {
 
   render() {
     let classNames = this.props.location ? 'location-theme-' + this.props.location.type + ' ' : '';
-
+console.log(this.scrollPosition);
     return (
       <div ref="draggable" className={classNames + 'location-view'}>
-        <ScrollView className="view-content">
+        <ScrollView className="view-content" model={this.scrollPosition}>
         {(()=>{
           if (this.props.location) {
               return ([
