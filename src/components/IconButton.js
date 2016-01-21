@@ -10,7 +10,7 @@ class Landing extends React.Component {
   render() {
     let classNames = this.props.className ? this.props.className + ' icon-button' : 'icon-button';
     return (
-        <div className={classNames}>
+        <div className={classNames} onClick={this.props.onClick}>
           <i className={'ion-' + this.props.icon}></i>
         </div>
     );

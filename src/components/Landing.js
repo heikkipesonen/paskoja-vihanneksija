@@ -13,8 +13,8 @@ class Landing extends React.Component {
           <h4>ja huonoja juureksia</h4>
         </div>
         <div className="login-wrapper layout-row">
-          <IconButton className="button-round" icon="social-facebook"></IconButton>
-          <IconButton className="button-round" icon="social-google"></IconButton>
+          <IconButton onClick={this.props.setFakeLogin} className="button-round" icon="social-facebook"></IconButton>
+          <IconButton onClick={this.props.setFakeLogin} className="button-round" icon="social-google"></IconButton>
         </div>
       </View>
     );

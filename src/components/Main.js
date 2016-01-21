@@ -14,6 +14,7 @@ class AppComponent extends React.Component {
     super(props);
 
     this.state = {
+      login: false,
       locations: [],
       currentLocation: null,
       locationVisible: false
@@ -38,13 +39,27 @@ class AppComponent extends React.Component {
     });
   };
 
+  setLogin = () => {
+    this.setState({
+      login: true
+    });
+  };
+
   render() {
     return (
-      // <Landing></Landing>
-      <View className="main-view">
-        <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
-        <LocationView visible={this.state.locationVisible} location={this.state.currentLocation}></LocationView>
-      </View>
+      (()=>{
+        if (!this.state.login) {
+          return (<Landing setFakeLogin={this.setLogin}></Landing>);
+        } else {
+          return (
+            <View className="main-view">
+              <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
+              <LocationView visible={this.state.locationVisible} location={this.state.currentLocation}></LocationView>
+            </View>
+          );
+        }
+      })()
+
     );
   }
 }
