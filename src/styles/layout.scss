@@ -8,6 +8,12 @@
   flex-direction: row;
 }
 
+.layout-center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .layout-wrap{
   display: flex;
   flex-wrap: wrap;

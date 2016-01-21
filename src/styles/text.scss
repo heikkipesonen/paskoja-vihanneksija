@@ -16,3 +16,17 @@ h1,h2,h3,h4 {
   text-transform: uppercase;
   font-weight: 400;
 }
+
+.icon-header{
+  font-size: 100px;
+  background-color: white;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+
+  i{
+    color: #A93441;
+  }
+}

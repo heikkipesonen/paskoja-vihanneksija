@@ -7,6 +7,7 @@ import View from './View';
 import Map from './map/Map';
 import LocationView from './location/LocationView';
 import Landing from './Landing';
+import Login from './Login';
 
 class AppComponent extends React.Component {
 
@@ -49,7 +50,8 @@ class AppComponent extends React.Component {
     return (
       (()=>{
         if (!this.state.login) {
-          return (<Landing setFakeLogin={this.setLogin}></Landing>);
+          return (<Login></Login>);
+          // return (<Landing setFakeLogin={this.setLogin}></Landing>);
         } else {
           return (
             <View className="main-view">
