@@ -48,8 +48,8 @@ class Map extends React.Component {
       let markerOptions = {
         position: new google.maps.LatLng(location.position.lat, location.position.lng),
         icon: {
-          url:'images/marker-'+location.type+'-2x.png',
-          scaledSize: new google.maps.Size(148/2,166/2)
+          url:'images/marker-red.png',
+          scaledSize: new google.maps.Size(80/2,122/2)
         },
         data:location
       };
