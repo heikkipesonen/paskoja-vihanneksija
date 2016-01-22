@@ -4,14 +4,23 @@ $main-color: #c94714;
   padding-top: 16px;
   padding-bottom: 16px;
   display: flex;
+  color: white;
 
   .product-title{
+
+  }
+
+  h4.product-producer{
+    font-weight: 200;
+    font-size: 8pt;
+  }
+
+  h4{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-  h4{
     margin: 0;
+    white-space: nowrap;
   }
 
 }
@@ -28,22 +37,22 @@ $main-color: #c94714;
   font-size: 0.8rem;
   text-align: right;
   text-transform: none;
-  opacity: 0.6;
 }
 
 .product-count{
   padding-right: 16px;
 
   span{
-    font-weight: 400;
+    font-weight: 800;
+    border: 2px solid white;
     border-radius: 50%;
+    font-size: 1.4rem;
 
     display: flex;
 
     justify-content: center;
     align-items: center;
 
-    background-color: $main-color;
     width: 40px;
     height: 40px;
     color: white;

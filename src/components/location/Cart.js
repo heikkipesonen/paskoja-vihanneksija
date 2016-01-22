@@ -3,6 +3,7 @@ require('./cart.scss');
 import React from 'react';
 import ScrollView from '../ScrollView';
 import DragView from '../helpers/DragView';
+import IconButton from '../IconButton';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class Cart extends React.Component {
       products: [],
       productCount: 0,
       providersCount: 0,
-      total: 0
+      total: 0,
+      icon: 'ios-arrow-up'
     };
 
     this.viewOptions = {
@@ -47,6 +49,14 @@ class Cart extends React.Component {
     this.draggable.destroy();
   }
 
+  toggleCart = () => {
+    if (this.viewOptions.offset.y === this.viewOptions.axis.y.max) {
+      this.dragView.setOffset({y:this.viewOptions.axis.y.min}, this.viewOptions.leaveAnimationDuration);
+    } else {
+      this.dragView.setOffset({y:this.viewOptions.axis.y.max}, this.viewOptions.leaveAnimationDuration);
+    }
+  };
+
   render() {
     return (
       <div className="cart" ref="draggable">
@@ -54,8 +64,8 @@ class Cart extends React.Component {
           <div className="flex cart-tab">
             {this.state.productCount}
           </div>
-          <div className="flex cart-tab">
-            {this.state.providersCount}
+          <div className="flex cart-tab" onClick={this.toggleCart}>
+            <IconButton icon={this.state.icon}></IconButton>
           </div>
           <div className="flex cart-tab">
             {this.state.total}

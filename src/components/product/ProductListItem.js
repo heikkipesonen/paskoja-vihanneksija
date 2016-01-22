@@ -19,7 +19,7 @@ class ProductListItem extends React.Component {
         </div>
         <div className="layout-column product-info-wrapper flex">
           <h4 className="product-title flex">{this.props.product.name}</h4>
-          <h4 className="product-producer flex">{this.props.product.producer}</h4>
+          <h4 className="product-producer flex">{this.props.product.producer_id}</h4>
         </div>
         <div className="layout-column product-price-wrapper">
           <Currency value={this.props.product.price}></Currency>

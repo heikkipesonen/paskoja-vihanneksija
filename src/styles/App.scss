@@ -2,6 +2,8 @@
 @import 'colors';
 @import 'text';
 @import 'layout';
+@import 'grid';
+@import 'images';
 
 
 .animate{
@@ -15,20 +17,4 @@
 
 .image-ready{
   opacity: 1;
-}
-
-
-.image-container{
-
-  img{
-    opacity: 0;
-    transition: 0.3s;
-  }
-
-  &.image-ready{
-
-    img{
-      opacity: 1;
-    }
-  }
 }

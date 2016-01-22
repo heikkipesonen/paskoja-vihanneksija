@@ -1,9 +1,5 @@
 $main-color: #c94714;
 
-$color-theme-market: #2c2cff;
-$color-theme-meeting: rgb(67, 134, 1);
-$color-theme-farm: #ff532c;
-
 .location-title{
   color: white;
 
@@ -18,54 +14,19 @@ $color-theme-farm: #ff532c;
   position: relative;
 
   .image{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 200px;
     background-size: cover;
   }
 
   .location-title-text{
     padding: 16px;
-    background-color: fade_out($main-color, 0.4);
     z-index: 1;
     position: relative;
   }
 
   .location-header h4{
     font-weight: 800;
-    text-shadow: 0px 0px 10px rgba(0,0,0,0.8);
-  }
-}
-
-.location-theme-market{
-  .location-title-text{
-    background-color: fade_out($color-theme-market, 0.4);
-  }
-
-  .product-count span, .cart-title{
-    background-color: $color-theme-market;
-  }
-
-}
-
-.location-theme-meeting{
-  .location-title-text{
-    background-color: fade_out($color-theme-meeting, 0.4);
-  }
-
-  .product-count span, .cart-title{
-    background-color: $color-theme-meeting;
-  }
-
-}
-.location-theme-farm{
-  .location-title-text{
-    background-color: fade_out($color-theme-farm, 0.4);
-  }
-
-  .product-count span, .cart-title{
-    background-color: $color-theme-farm;
+    font-size: 12pt;
   }
 }

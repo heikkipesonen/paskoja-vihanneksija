@@ -7,7 +7,11 @@ class LocationTitle extends React.Component {
   render() {
     return (
       <div className="location-title text-center">
-        <ImageLoader src="images/food.jpg"></ImageLoader>
+        <div className="image-container">
+          <ImageLoader src="images/food.jpg"></ImageLoader>
+          <div className="image-overlay"></div>
+        </div>
+
         <div className="location-title-text">
           <div className="location-header">
             <h4>{this.props.location.name}</h4>

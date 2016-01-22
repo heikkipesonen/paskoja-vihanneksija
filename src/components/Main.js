@@ -50,7 +50,7 @@ class AppComponent extends React.Component {
     return (
       (()=>{
         if (!this.state.login) {
-          return (<Login></Login>);
+          return (<Login onLogin={this.setLogin}></Login>);
           // return (<Landing setFakeLogin={this.setLogin}></Landing>);
         } else {
           return (
