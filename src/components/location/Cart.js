@@ -8,7 +8,7 @@ import ProductList from '../product/ProductList';
 import Currency from '../Currency';
 import Button from '../Button';
 
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 // @connect(state => ({
 //   carts: state.carts
@@ -76,7 +76,7 @@ class Cart extends React.Component {
     return (
       <DragView
         onStateChange={this.onViewStateChange}
-        initialPosition={this.state.viewMaxY} 
+        initialPosition={this.state.viewMaxY}
         className="cart"
         maxY={this.state.viewMaxY}
         minY={this.state.viewMinY}>

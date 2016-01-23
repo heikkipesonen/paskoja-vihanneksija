@@ -28,7 +28,6 @@ class ScrollContainer extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(!!nextProps.disabled);
     this.setState({
       disabled: !!nextProps.disabled
     });

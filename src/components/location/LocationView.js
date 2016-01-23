@@ -7,8 +7,8 @@ import LocationTitle from './LocationTitle';
 // import LocationImage from './LocationImage';
 import Cart from './Cart';
 import ProductList from '../product/ProductList';
-import store from '../../stores/store';
-import * as cart from '../../actions/CartActions'
+// import store from '../../stores/store';
+// import * as cart from '../../actions/CartActions'
 
 class LocationView extends React.Component {
   constructor(props) {
