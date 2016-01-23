@@ -1,0 +1,20 @@
+$currentColumn: 0;
+
+@while ($currentColumn < 100) {
+  $currentColumn: $currentColumn+5;
+  .layout-column{
+    .flex-#{$currentColumn}{
+      flex: 1;
+      max-width: #{$currentColumn}%;
+      width: #{$currentColumn}%;
+    }
+  }
+
+  .layout-row{
+    .flex-#{$currentColumn}{
+      flex: 1;
+      max-height: #{$currentColumn}%;
+      height: #{$currentColumn}%;
+    }
+  }
+}

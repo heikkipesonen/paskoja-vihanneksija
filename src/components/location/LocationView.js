@@ -1,11 +1,12 @@
 require('./locationView.scss');
 
 import React from 'react';
-import ScrollView from '../ScrollView';
+import DragView from '../ui/DragView';
+import ScrollContainer from '../ui/ScrollContainer';
 import LocationTitle from './LocationTitle';
+import LocationImage from './LocationImage';
 import Cart from './Cart';
 import ProductList from '../product/ProductList';
-import DragView from '../helpers/DragView';
 
 
 class LocationView extends React.Component {
@@ -15,32 +16,13 @@ class LocationView extends React.Component {
     this.state = {
       products: [],
       selectedProducts: [],
-      visible: false
-    };
-
-    this.scrollPosition = {
-      x: 0,
-      y: 0
-    };
-
-    this.viewOptions = {
-      leaveAnimationDuration: 300,
-			returnAnimationDuration: 300,
-      axis:{
-        x:false,
-        y:{
-          min: 0,
-          max: window.innerHeight,
-          tension: true
-        }
-      }
+      visible: false,
+      viewMaxY: window.innerHeight - 50,
+      viewMinY: 0
     };
   }
 
   componentDidMount() {
-    this.dragView = new DragView(this.refs.draggable, this.viewOptions);
-    this.dragView.setOffset({y: this.viewOptions.axis.y.max}, 0);
-
     fetch('../data/products.json').then((data) => {
       data.json().then((products) => {
         this.setState({
@@ -50,35 +32,30 @@ class LocationView extends React.Component {
     });
   }
 
-  componentWillUnmount(){
-    this.draggable.destroy();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.visible === true){
-      this.dragView.setOffset({y: this.viewOptions.axis.y.min}, 300);
-    }
-  }
-
   render() {
     let classNames = this.props.location ? 'location-theme-' + this.props.location.type + ' ' : '';
-console.log(this.scrollPosition);
+
     return (
-      <div ref="draggable" className={classNames + 'location-view'}>
-        <ScrollView className="view-content" model={this.scrollPosition}>
-        {(()=>{
-          if (this.props.location) {
-              return ([
-                <LocationTitle key="locationTitle" location={this.props.location}></LocationTitle>,
-                <ProductList key="productList" products={this.state.products}></ProductList>
-              ]);
-            }
-        })()}
-        </ScrollView>
-        <div className="cart-wrapper">
-          <Cart products={this.state.selectedProducts}></Cart>
-        </div>
-      </div>
+      <DragView initialPosition={this.state.viewMaxY} maxY={this.state.viewMaxY} minY={this.state.viewMinY} className={classNames + 'location-view'}>
+        <ScrollContainer className="view-content flex layout-column">
+          <div className="location-content flex">
+            <div className="location-header"></div>
+            <div className="location-body">
+            {(()=>{
+              if (this.props.location) {
+                  return ([
+                    <LocationTitle key="locationTitle" location={this.props.location}></LocationTitle>,
+                    <ProductList key="productList" products={this.state.products}></ProductList>
+                  ]);
+                }
+            })()}
+            </div>
+          </div>
+        </ScrollContainer>
+
+      <Cart products={this.state.selectedProducts}></Cart>
+
+      </DragView>
     );
   }
 

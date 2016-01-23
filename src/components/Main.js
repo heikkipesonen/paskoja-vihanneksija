@@ -6,8 +6,8 @@ import React from 'react';
 import View from './View';
 import Map from './map/Map';
 import LocationView from './location/LocationView';
-import Landing from './Landing';
-import Login from './Login';
+// import Landing from './Landing';
+// import Login from './Login';
 
 class AppComponent extends React.Component {
 
@@ -18,7 +18,8 @@ class AppComponent extends React.Component {
       login: false,
       locations: [],
       currentLocation: null,
-      locationVisible: false
+      locationVisible: false,
+      viewPosition: window.innerHeight
     };
   }
 
@@ -33,10 +34,10 @@ class AppComponent extends React.Component {
   }
 
   onLocationClick = (location) => {
-    console.log(location);
     this.setState({
       currentLocation: location,
-      locationVisible: true
+      locationVisible: true,
+      viewPosition: 0
     });
   };
 
@@ -48,21 +49,21 @@ class AppComponent extends React.Component {
 
   render() {
     return (
-      (()=>{
-        if (!this.state.login) {
-          return (<Login onLogin={this.setLogin}></Login>);
-          // return (<Landing setFakeLogin={this.setLogin}></Landing>);
-        } else {
-          return (
-            <View className="main-view">
-              <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
-              <LocationView visible={this.state.locationVisible} location={this.state.currentLocation}></LocationView>
-            </View>
-          );
-        }
-      })()
-
+      <View className="main-view">
+        <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
+        <LocationView animateTo={this.state.viewPosition} visible={this.state.locationVisible} location={this.state.currentLocation}></LocationView>
+      </View>
     );
+    // return (
+    //   (()=>{
+    //     if (!this.state.login) {
+    //       return (<Login onLogin={this.setLogin}></Login>);
+    //       // return (<Landing setFakeLogin={this.setLogin}></Landing>);
+    //     } else {
+    //     }
+    //   })()
+    //
+    // );
   }
 }
 
