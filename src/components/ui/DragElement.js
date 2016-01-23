@@ -123,8 +123,8 @@ class DragElement extends React.Component{
 
     this.setState({
       velocity: {
-        x: sx / (currentPosition.timeStamp - this.lastEvent.timeStamp),
-        y: sy / (currentPosition.timeStamp - this.lastEvent.timeStamp)
+        x: direction === 'x' ? sx / (currentPosition.timeStamp - this.lastEvent.timeStamp) : 0,
+        y: direction === 'y' ? sy / (currentPosition.timeStamp - this.lastEvent.timeStamp) : 0
       },
       animation: 0,
       x: direction === 'x' ? Math.round(this.state.x + sx) : this.state.x,

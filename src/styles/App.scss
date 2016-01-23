@@ -5,6 +5,9 @@
 @import 'grid';
 @import 'images';
 
+*{
+  -webkit-tap-highlight-color: transparent;
+}
 
 .animate{
   transition: 0.3s;

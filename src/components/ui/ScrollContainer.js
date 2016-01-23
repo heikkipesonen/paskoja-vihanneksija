@@ -19,11 +19,19 @@ class ScrollContainer extends React.Component{
     };
 
     this.state = {
+      disabled: this.props.disabled || false,
       top: 0,
       scrollHeight: 0
     };
 
     this.lastEvent = false;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(!!nextProps.disabled);
+    this.setState({
+      disabled: !!nextProps.disabled
+    });
   }
 
   componentDidMount() {
@@ -64,6 +72,11 @@ class ScrollContainer extends React.Component{
   };
 
   onTouchStart = (evt) => {
+    if (this.state.disabled) {
+      evt.preventDefault();
+      return;
+    }
+
     this.height = this.refs.view.offsetHeight;
 
     let scrollHeight = this.refs.view.scrollHeight;
@@ -100,11 +113,11 @@ class ScrollContainer extends React.Component{
   }
 
   onTouchMove = (evt) => {
-
-    if (evt.touches.length > 1){
+    if (this.state.disabled || evt.touches.length > 1) {
       evt.preventDefault();
       return;
     }
+
     let scrollPosition = this.refs.view.scrollTop;
     let position = this.getCursor(evt);
         this.delta.x += position.x - this.lastEvent.x;

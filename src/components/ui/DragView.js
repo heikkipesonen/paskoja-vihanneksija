@@ -16,6 +16,7 @@ class DragView extends DragElement{
       });
 
       this.setOptions({
+        classTolerance: 50,
         changeVelocity: 0.2,
         max_y: this.props.maxY,
         min_y: this.props.minY,
@@ -43,32 +44,51 @@ class DragView extends DragElement{
       // decide which is closer and then apply that as next position
       let dy = distToMin < distToMax ? this.options.min_y : this.options.max_y;
 
-      // determine if velocity is over the change threshold,
-      // if so, then goto next position
-      if (this.state.velocity.y > this.options.changeVelocity){
-        dy = this.options.max_y;
-      }
-
-      if (this.state.velocity.y < -this.options.changeVelocity){
-        dy = this.options.min_y;
-      }
 
       // apply animation
       let dx = 0;
       let animation = this.state.x === dx && this.state.y === dy ? 0 : this.options.animationDuration;
-
-      this.setState({
+      let newState = {
         animation: animation,
         x: dx,
         y: dy,
         direction: false
-      });
+      };
+
+      // determine if velocity is over the change threshold,
+      // if so, then goto next position
+      if (this.state.velocity.y > this.options.changeVelocity){
+        newState.y = this.options.max_y;
+
+        if (this.props.onStateChange) {
+          this.props.onStateChange(newState);
+        }
+      }
+
+      if (this.state.velocity.y < -this.options.changeVelocity){
+        newState.y = this.options.min_y;
+
+        if (this.props.onStateChange) {
+          this.props.onStateChange(newState);
+        }
+      }
+
+      this.setState(newState);
 
       this.lastEvent = false;
+      this._dragStarted = false;
     };
 
     render(){
       let classNames = this.props.className ? this.props.className + ' drag-view' : 'drag-view';
+
+      if (this.state.y > this.options.max_y - this.options.classTolerance) {
+        classNames += ' max-y';
+      }
+
+      if (this.state.y < this.options.min_y + this.options.classTolerance) {
+        classNames += ' min-y';
+      }
 
       let style = {
         transform: `translate3d(${this.state.x}px, ${this.state.y}px, 0)`,

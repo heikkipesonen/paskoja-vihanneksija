@@ -15,6 +15,7 @@ class LocationView extends React.Component {
     super(props);
 
     this.state = {
+      disableScroll: true,
       products: [],
       selectedProducts: [],
       visible: false,
@@ -41,18 +42,33 @@ class LocationView extends React.Component {
       selectedProducts: [...this.state.selectedProducts, product]
     });
 
-    console.log(this.state);
+  };
+
+  viewStateChange = (state) => {
+    console.log(state);
+    this.setState({
+      disableScroll: state.y !== 0
+    });
   };
 
   render() {
     let classNames = this.props.location ? 'location-theme-' + this.props.location.type + ' ' : '';
 
     return (
-      <DragView initialPosition={this.state.viewMaxY} maxY={this.state.viewMaxY} minY={this.state.viewMinY} className={classNames + 'location-view'}>
-        <ScrollContainer className="view-content flex layout-column">
-          <div className="location-content flex layout-column">
-            <div className="location-header"></div>
-            <div className="location-body flex">
+      <DragView
+        onStateChange={this.viewStateChange}
+        initialPosition={this.state.viewMaxY}
+        maxY={this.state.viewMaxY}
+        minY={this.state.viewMinY}
+        className={classNames + 'location-view layout-column'}>
+
+        <ScrollContainer
+          disabled={this.state.disableScroll}
+          className="view-content flex">
+
+          <div className="location-header"></div>
+
+          <div className="location-body">
             {(()=>{
               if (this.props.location) {
                   return ([
@@ -61,11 +77,13 @@ class LocationView extends React.Component {
                   ]);
                 }
             })()}
-            </div>
           </div>
+
+
+
         </ScrollContainer>
 
-      <Cart products={this.state.selectedProducts}></Cart>
+        <Cart products={this.state.selectedProducts}></Cart>
 
       </DragView>
     );

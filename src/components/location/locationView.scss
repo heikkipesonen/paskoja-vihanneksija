@@ -29,6 +29,7 @@ $main-color: #c94714;
 .location-header{
   background-image: url('../../images/bg-header.png');
   height: 283px;
+  min-height: 283px;
   width: 100%;
   background-size: 100% 100%;
 }
@@ -38,6 +39,6 @@ $main-color: #c94714;
   background-repeat: repeat-y;
   width: 100%;
   background-size: 100% auto;
-
+  min-height: 500px;
   padding-bottom: 50px;
 }

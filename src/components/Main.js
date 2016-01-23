@@ -49,7 +49,7 @@ class AppComponent extends React.Component {
   };
 
   render() {
-    return (      
+    return (
       <Provider store={store}>
         <View className="main-view">
           <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
