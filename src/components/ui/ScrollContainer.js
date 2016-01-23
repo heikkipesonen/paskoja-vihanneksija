@@ -55,7 +55,7 @@ class ScrollContainer extends React.Component{
 
   onScroll = () => {
     this.setState({
-      top: this.refs.view.scrollTop,
+      top: this.refs.view.scrollTop
     });
 
     if (this.props.onScroll){
@@ -83,7 +83,7 @@ class ScrollContainer extends React.Component{
       scrollHeight: scrollHeight
     });
 
-    // evt.stopPropagation();
+    evt.stopPropagation();
 
     this.direction = false;
     this.delta.x = 0;

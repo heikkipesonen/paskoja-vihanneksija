@@ -18,19 +18,21 @@ class DragElement extends React.Component{
     };
 
     // last mouse event for calculating steps
-    this.lastEvent = {
-      x: 0,
-      y: 0,
-      timeStamp: 0
-    };
+    this.lastEvent = false;
 
     this.options = {
       max_x: 0,
       max_y: 100,
       min_x: 0,
       min_y: 0,
-      tension_x: 0.3, // rubberband effect when out of bounds
-      tension_y: 0.3,
+
+       // rubberband effect when out of bounds
+      tension:{
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+      },
       animationDuration: 300 // default animation duration
     };
   }
@@ -93,6 +95,11 @@ class DragElement extends React.Component{
     evt.stopPropagation();
     evt.preventDefault();
 
+    if (!this.lastEvent){
+      this.dragStart(evt);
+      return;
+    }
+
     let currentPosition = this.getCursor(evt);
 
     let sx = currentPosition.x - this.lastEvent.x;
@@ -107,11 +114,11 @@ class DragElement extends React.Component{
 
     // if over bounds, apply tension
     if ((this.state.x + sx > this.options.max_x && sx > 0) || (this.state.x + sx < this.options.min_x && sx < 0)){
-      sx = sx * this.options.tension_x;
+      sx = sx * (sx > 0 ? this.options.tension.left : this.options.tension.right);
     }
 
     if ((this.state.y + sy > this.options.max_y && sy > 0) || (this.state.y + sy < this.options.min_y && sy < 0)){
-      sy = sy * this.options.tension_y;
+      sy = sy * (sy > 0 ? this.options.tension.bottom : this.options.tension.top);
     }
 
     this.setState({
@@ -148,6 +155,8 @@ class DragElement extends React.Component{
       y: dy,
       direction: false
     });
+
+    this.lastEvent = false;
   };
 
   /**

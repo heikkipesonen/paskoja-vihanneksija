@@ -16,21 +16,16 @@ class DragView extends DragElement{
       });
 
       this.setOptions({
+        changeVelocity: 0.2,
         max_y: this.props.maxY,
         min_y: this.props.minY,
-        tension_x: 0,
-        tension_y: 0.3
+        tension: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0.3
+        }
       });
-    }
-
-    /**
-     * when animateTo prop is changed, then trigger movement
-     * @param  {[type]} nextProps [description]
-     * @return {[type]}           [description]
-     */
-    componentWillReceiveProps(nextProps) {
-      console.log(nextProps);
-
     }
 
     /**
@@ -40,7 +35,6 @@ class DragView extends DragElement{
      */
     dragEnd = (evt) => {
       evt.stopPropagation();
-      evt.preventDefault();
 
       // distance to max and min positions
       let distToMax = Math.abs(this.options.max_y - this.state.y);
@@ -51,11 +45,11 @@ class DragView extends DragElement{
 
       // determine if velocity is over the change threshold,
       // if so, then goto next position
-      if (this.state.velocity.y > 0.1){
+      if (this.state.velocity.y > this.options.changeVelocity){
         dy = this.options.max_y;
       }
 
-      if (this.state.velocity.y < -0.1){
+      if (this.state.velocity.y < -this.options.changeVelocity){
         dy = this.options.min_y;
       }
 
@@ -69,6 +63,8 @@ class DragView extends DragElement{
         y: dy,
         direction: false
       });
+
+      this.lastEvent = false;
     };
 
     render(){

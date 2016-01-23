@@ -9,7 +9,9 @@ class Currency extends React.Component {
   }
 
   render() {
-    let values = this.props.value.toString().split(/[\,\.]/);
+    let values = Math.round(this.props.value * 100)/ 100;
+
+    values = values.toString().split(/[\,\.]/);
     values[1] = values[1] ? values[1] : '00';
     values[1] = values[1].length < 2 ? values[1] + '0' : values[1];
 

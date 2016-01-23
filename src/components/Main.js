@@ -3,11 +3,13 @@ require('styles/App.scss');
 require('ionicons/scss/ionicons.scss');
 
 import React from 'react';
+import {Provider} from 'react-redux';
 import View from './View';
 import Map from './map/Map';
 import LocationView from './location/LocationView';
 // import Landing from './Landing';
 // import Login from './Login';
+import store from '../stores/store';
 
 class AppComponent extends React.Component {
 
@@ -18,8 +20,7 @@ class AppComponent extends React.Component {
       login: false,
       locations: [],
       currentLocation: null,
-      locationVisible: false,
-      viewPosition: window.innerHeight
+      locationVisible: false
     };
   }
 
@@ -48,11 +49,13 @@ class AppComponent extends React.Component {
   };
 
   render() {
-    return (
-      <View className="main-view">
-        <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
-        <LocationView animateTo={this.state.viewPosition} visible={this.state.locationVisible} location={this.state.currentLocation}></LocationView>
-      </View>
+    return (      
+      <Provider store={store}>
+        <View className="main-view">
+          <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
+          <LocationView visible={this.state.locationVisible} location={this.state.currentLocation}></LocationView>
+        </View>
+      </Provider>
     );
     // return (
     //   (()=>{
