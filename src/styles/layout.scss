@@ -1,3 +1,18 @@
+.column{
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.column-2{
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.row{
+  margin-left: -8px;
+  margin-right: -8px;
+}
+
 .layout-column{
   display: flex;
   flex-direction: column;
@@ -21,4 +36,35 @@
 
 .flex{
   flex: 1;
+}
+
+
+.view-header{    
+  height: 283px;
+  min-height: 283px;
+  width: 100%;
+  background-size: 100% 100%;
+
+  transition: 0.3s;
+  transition-timing-function: ease-out;
+
+  background-image: url('../images/bg-header.png');
+
+  &.bg-secondary{
+    background-image: url('../images/bg-header-2.png');
+  }
+}
+
+.view-body{
+  background-repeat: repeat-y;
+  width: 100%;
+  background-size: 100% auto;
+  min-height: 500px;
+  padding-bottom: 50px;
+
+  background-image: url('../images/bg-body.png');
+
+  &.bg-secondary{
+    background-image: url('../images/bg-body-2.png');
+  }
 }

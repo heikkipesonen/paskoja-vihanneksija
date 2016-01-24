@@ -3,6 +3,11 @@ import DragElement from './DragElement';
 
 class DragView extends DragElement{
 
+
+    componentWillReceiveProps(nextProps){
+      this.setOptions(nextProps.options);
+    }
+
     /**
      * bind listener for transitionend and set options according to props
      * @return {[type]} [description]
@@ -10,22 +15,12 @@ class DragView extends DragElement{
     componentDidMount() {
       this.refs.dragElement.addEventListener('transitionend', this.animationEnd);
 
+
+      this.setOptions(this.props.options);
+
       this.setState({
         animation: 0,
-        y: this.props.initialPosition || 0
-      });
-
-      this.setOptions({
-        classTolerance: 50,
-        changeVelocity: 0.2,
-        max_y: this.props.maxY,
-        min_y: this.props.minY,
-        tension: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0.3
-        }
+        y: this.options.initialPosition || 0
       });
     }
 

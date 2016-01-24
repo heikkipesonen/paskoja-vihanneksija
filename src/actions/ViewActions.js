@@ -13,19 +13,3 @@ export function closeView(id) {
     id
   };
 }
-
-export function cartAdd(id, product) {
-  return {
-    type: types.CART_ADD,
-    id,
-    product
-  };
-}
-
-export function cartRemove(id, product) {
-  return {
-    type: types.CART_REMOVE,
-    id,
-    product
-  };
-}

@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import View from './View';
 import Map from './map/Map';
 import LocationView from './location/LocationView';
+import UserBar from './views/UserBar';
 // import Landing from './Landing';
 // import Login from './Login';
 import store from '../stores/store';
@@ -54,6 +55,7 @@ class AppComponent extends React.Component {
         <View className="main-view">
           <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
           <LocationView visible={this.state.locationVisible} location={this.state.currentLocation}></LocationView>
+          <UserBar></UserBar>
         </View>
       </Provider>
     );

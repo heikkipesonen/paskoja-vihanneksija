@@ -10,8 +10,7 @@ class LocationImage extends React.Component{
 
     return (
       <div className={classNames}>
-        <ImageLoader src="images/food.jpg"></ImageLoader>
-        <div className="image-overlay"></div>
+        <ImageLoader src="images/food.jpg"></ImageLoader>        
       </div>
     );
   }

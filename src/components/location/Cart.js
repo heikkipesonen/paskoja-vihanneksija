@@ -25,9 +25,21 @@ class Cart extends React.Component {
       producersCount: 0,
       total: 0,
       icon: 'ios-arrow-up',
-      viewPosition: null,
-      viewMinY: 0,
-      viewMaxY: window.innerHeight - 50
+
+
+      viewOptions: {
+        initialPosition: window.innerHeight - 50,
+        classTolerance: 50,
+        changeVelocity: 0.2,
+        max_y: window.innerHeight - 50,
+        min_y: 0,
+        tension: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0.3
+        }
+      }
     };
   }
 
@@ -75,14 +87,11 @@ class Cart extends React.Component {
   render() {
     return (
       <DragView
+        options={this.state.viewOptions}
         onStateChange={this.onViewStateChange}
-        initialPosition={this.state.viewMaxY}
-        className="cart"
-        maxY={this.state.viewMaxY}
-        minY={this.state.viewMinY}>
-
+        className="cart">
         <ScrollContainer className="view-content" disabled={this.state.disableScroll}>
-          <div className="cart-title">
+          <div className="cart-title view-header bg-secondary layout-row">
             <div className="flex cart-tab">
               {this.state.productCount}
             </div>
@@ -94,7 +103,7 @@ class Cart extends React.Component {
             </div>
           </div>
 
-          <div className="location-body cart-body">
+          <div className="cart-body view-body bg-secondary">
 
             <ProductList products={this.state.products}></ProductList>
 
