@@ -7,7 +7,7 @@ import {Provider} from 'react-redux';
 import View from './View';
 import Map from './map/Map';
 import LocationView from './location/LocationView';
-import UserBar from './views/UserBar';
+import UserBar from './user/UserBar';
 // import Landing from './Landing';
 // import Login from './Login';
 import store from '../stores/store';
