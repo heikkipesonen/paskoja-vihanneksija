@@ -45,7 +45,6 @@ class DragElement extends React.Component{
 
   componentDidMount() {
     this.refs.dragElement.addEventListener('transitionend', this.animationEnd);
-    this.setOptions(this.props.options);
   }
 
   componentWillUnmount(){
@@ -121,17 +120,24 @@ class DragElement extends React.Component{
       sy = sy * (sy > 0 ? this.options.tension.bottom : this.options.tension.top);
     }
 
+
+    // apply state
     this.setState({
+      // velocity only if direction is known
       velocity: {
         x: direction === 'x' ? sx / (currentPosition.timeStamp - this.lastEvent.timeStamp) : 0,
         y: direction === 'y' ? sy / (currentPosition.timeStamp - this.lastEvent.timeStamp) : 0
       },
       animation: 0,
+
+      // movement only if direction is known
       x: direction === 'x' ? Math.round(this.state.x + sx) : this.state.x,
       y: direction === 'y' ? Math.round(this.state.y + sy) : this.state.y,
+
       direction: direction
     });
 
+    // add lastEvent
     this.lastEvent = currentPosition;
   };
 
@@ -160,6 +166,19 @@ class DragElement extends React.Component{
   };
 
   /**
+   * move element to desired position
+   * @param {Object} position  [description]
+   * @param {int} animation [description]
+   */
+  setPosition(position, animation) {
+    this.setState({
+      x: position.x || 0,
+      y: position.y || 0,
+      animation: animation || 0
+    });
+  }
+
+  /**
    * when element has stopped animating
    * @return {[type]} [description]
    */
@@ -174,24 +193,48 @@ class DragElement extends React.Component{
     });
   };
 
-  render() {
-    let classNames = this.props.className ? this.props.className + ' drag-element' : 'drag-element';
-    let style = {
+  getClassNames(addititonalClassNames){
+    let classNames = ['drag-view','view']
+
+    if (this.props.className){
+      classNames.push(this.props.className);
+    }
+
+    if (addititonalClassNames){
+      classNames.push(addititonalClassNames);
+    }
+
+    if (this.state.y > this.options.max_y - this.options.classTolerance) {
+      classNames.push('max-y');
+    }
+
+    if (this.state.y < this.options.min_y + this.options.classTolerance) {
+      classNames.push('min-y');
+    }
+
+    return classNames.join(' ');
+  }
+
+
+  getElementStyle() {
+    return {
       transform: `translate3d(${this.state.x}px, ${this.state.y}px, 0)`,
       transitionDuration: `${this.state.animation}ms`,
       transitionTimingFunction: 'ease-out'
     };
+  }
 
+  render() {
     return (
       <div
         ref="dragElement"
-        style={style}
+        style={this.getElementStyle()}
         onTransitionEnd={this.animationEnd}
         onTouchStart={this.dragStart}
         onTouchMove={this.dragMove}
         onTouchEnd={this.dragEnd}
 
-        className={classNames}>
+        className={this.getClassNames('drag-element')}>
         {this.props.children}
       </div>
     );

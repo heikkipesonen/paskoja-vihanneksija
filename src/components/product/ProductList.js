@@ -4,6 +4,10 @@ import React from 'react';
 import ProductListItem from './ProductListItem';
 
 class ProductList extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.products !== nextProps.products;
+  }
+
   render() {
     return (
       <div className="product-list layout-column">

@@ -14,33 +14,48 @@ import Button from '../Button';
 //   carts: state.carts
 // }))
 
-class Cart extends React.Component {
+class Cart extends DragView {
   constructor(props) {
     super(props);
 
     this.state = {
-      disableScroll: true,
       products: [],
       productCount: 0,
       producersCount: 0,
       total: 0,
       icon: 'ios-arrow-up',
 
-
-      viewOptions: {
-        initialPosition: window.innerHeight - 50,
-        classTolerance: 50,
-        changeVelocity: 0.2,
-        max_y: window.innerHeight - 50,
-        min_y: 0,
-        tension: {
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0.3
-        }
+      direction: false, // current drag direction
+      x: 0,
+      y: window.innerHeight - 50,
+      animation: 0, // current animation duration
+      // speed of current event
+      velocity:{
+        x: 0,
+        y: 0
       }
     };
+
+    this.setOptions({
+      classTolerance: 50,
+      changeVelocity: 0.2,
+      max_y: window.innerHeight - 50,
+      min_y: 0,
+      tension: {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0.3
+      }
+    });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.location !== this.props.location ||
+      nextState.y !== this.state.y ||
+      nextState.x !== this.state.x ||
+      nextState.animation !== this.state.animation ||
+      nextProps.products.length !== this.props.products.length;      
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,35 +86,36 @@ class Cart extends React.Component {
     });
   }
 
-  onViewStateChange = (state) => {
-    console.log(state);
-    if (state.y === 0) {
-      this.setState({
-        disableScroll: false
-      });
-    } else {
-      this.setState({
-        disableScroll: true
-      });
-    }
-  };
-
   render() {
     return (
-      <DragView
-        options={this.state.viewOptions}
-        onStateChange={this.onViewStateChange}
-        className="cart">
-        <ScrollContainer className="view-content" disabled={this.state.disableScroll}>
-          <div className="cart-title view-header bg-secondary layout-row">
-            <div className="flex cart-tab">
-              {this.state.productCount}
+      <div
+        ref="dragElement"
+        style={this.getElementStyle()}
+        onTransitionEnd={this.animationEnd}
+        onTouchStart={this.dragStart}
+        onTouchMove={this.dragMove}
+        onTouchEnd={this.dragEnd}
+        className={this.getClassNames('cart layout-column')}>
+
+        <ScrollContainer
+          className="view-content"
+          disabled={this.state.y !== this.options.min_y}>
+
+          <div className="cart-title view-header bg-secondary layout-column">
+            <div className="cart-title layout-row">
+              <div className="flex cart-tab">
+                {this.state.productCount}
+              </div>
+              <div className="flex cart-tab">
+                <IconButton icon={this.state.icon}></IconButton>
+              </div>
+              <div className="flex cart-tab">
+                <Currency value={this.state.total}></Currency>
+              </div>
             </div>
-            <div className="flex cart-tab">
-              <IconButton icon={this.state.icon}></IconButton>
-            </div>
-            <div className="flex cart-tab">
-              <Currency value={this.state.total}></Currency>
+
+            <div className="cart-header flex layout-center">
+              <h3 className="view-title">Ostoskorisi</h3>
             </div>
           </div>
 
@@ -118,8 +134,7 @@ class Cart extends React.Component {
             </div>
           </div>
         </ScrollContainer>
-
-      </DragView>
+      </div>
     );
   }
 

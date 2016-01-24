@@ -54,7 +54,7 @@ class AppComponent extends React.Component {
       <Provider store={store}>
         <View className="main-view">
           <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
-          <LocationView visible={this.state.locationVisible} location={this.state.currentLocation}></LocationView>
+          <LocationView location={this.state.currentLocation}></LocationView>
           <UserBar></UserBar>
         </View>
       </Provider>

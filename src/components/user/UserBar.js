@@ -4,47 +4,54 @@ import React from 'react';
 import DragView from '../ui/DragView';
 import ScrollContainer from '../ui/ScrollContainer';
 
-class UserBar extends React.Component{
+class UserBar extends DragView{
 
   constructor(props){
     super(props);
 
     this.state = {
-      viewOptions: {
-        initialPosition: -window.innerHeight + 50,
-        classTolerance: 50,
-        changeVelocity: 0.2,
-        max_y: 0,
-        min_y: -window.innerHeight + 50,
-        tension: {
-          left: 0,
-          right: 0,
-          top: 0.3,
-          bottom: 0
-        }
+      direction: false, // current drag direction
+      x: 0,
+      y: -window.innerHeight + 50,
+      animation: 0, // current animation duration
+      // speed of current event
+      velocity:{
+        x: 0,
+        y: 0
       },
 
       user:{
         name: 'seppo keinonen'
       }
     };
-  }
 
-  onViewStateChange = (state) => {
-
-    this.setState({
-      disableScroll: state.y === this.state.viewMinY
+    this.setOptions({
+      classTolerance: 50,
+      changeVelocity: 0.2,
+      max_y: 0,
+      min_y: -window.innerHeight + 50,
+      tension: {
+        left: 0,
+        right: 0,
+        top: 0.3,
+        bottom: 0
+      }
     });
-  };
+  }
 
   render() {
     return (
-      <DragView
-        onStateChange={this.onViewStateChange}
-        options={this.state.viewOptions}
-        className="view user-view">
+      <div
+        ref="dragElement"
+        style={this.getElementStyle()}
+        onTransitionEnd={this.animationEnd}
+        onTouchStart={this.dragStart}
+        onTouchMove={this.dragMove}
+        onTouchEnd={this.dragEnd}
+        className={`view user-view drag-view layout-column ${this.getClassNames()}`}>
+
         <div className="user-view-wrapper view layout-column">
-          <ScrollContainer className="view-content flex" disabled={this.state.disableScroll}>
+          <ScrollContainer className="view-content flex" disabled={this.state.y === this.options.min_y}>
             <div className="layout-center">
               <div className="icon-header icon-round">
                 <i className="ion-social-facebook"></i>
@@ -63,7 +70,7 @@ class UserBar extends React.Component{
             </div>
           </div>
         </div>
-      </DragView>
+      </div>
     );
   }
 }

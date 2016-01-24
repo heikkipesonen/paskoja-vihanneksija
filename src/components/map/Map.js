@@ -59,7 +59,7 @@ class Map extends React.Component {
       var marker = new google.maps.Marker(markerOptions);
       marker.setMap(this.map);
 
-      mapUtils.on('click', marker, () => this.locationClick(marker.data));
+      mapUtils.on('click', marker, () => this.markerClick(marker));
 
       this.state.markers.push(marker);
 
@@ -69,9 +69,15 @@ class Map extends React.Component {
     }
   }
 
-  locationClick(location){
+  markerClick(marker){
+    let mapSize = [this.refs.mapLayer.offsetWidth/2, 120];
+    let markerPosition = mapUtils.getPixelPosition(marker.position, this.map);
+    let markerDiff = markerPosition.map((d, i) => {return d - mapSize[i]});
+
+    this.map.panBy(markerDiff[0], markerDiff[1]);
+
     if (this.props.onLocationClick) {
-      this.props.onLocationClick(location);
+      this.props.onLocationClick(marker.data);
     }
   }
 

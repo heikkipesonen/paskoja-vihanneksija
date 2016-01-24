@@ -1,10 +1,10 @@
 $main-color: #c94714;
 .cart-wrapper{
   height: 50px;
-
 }
 
 .cart{
+  z-index: 1;
   color: white;
   position: absolute;
   top: 0;
