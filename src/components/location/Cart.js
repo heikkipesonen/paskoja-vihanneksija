@@ -55,7 +55,7 @@ class Cart extends DragView {
       nextState.y !== this.state.y ||
       nextState.x !== this.state.x ||
       nextState.animation !== this.state.animation ||
-      nextProps.products.length !== this.props.products.length;      
+      nextProps.products.length !== this.props.products.length;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,6 +86,13 @@ class Cart extends DragView {
     });
   }
 
+  toggleOpen() {
+    this.setState({
+      y: this.options.max_y,
+      animation: this.options.animationDuration
+    });
+  }
+
   render() {
     return (
       <div
@@ -106,7 +113,7 @@ class Cart extends DragView {
               <div className="flex cart-tab">
                 {this.state.productCount}
               </div>
-              <div className="flex cart-tab">
+              <div className="flex cart-tab" onClick={() => this.toggleOpen()}>
                 <IconButton icon={this.state.icon}></IconButton>
               </div>
               <div className="flex cart-tab">

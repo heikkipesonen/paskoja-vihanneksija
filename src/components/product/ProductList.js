@@ -5,7 +5,8 @@ import ProductListItem from './ProductListItem';
 
 class ProductList extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.products !== nextProps.products;
+    // TODO: fix this shit
+    return this.props.products.length !== nextProps.products.length;
   }
 
   render() {
