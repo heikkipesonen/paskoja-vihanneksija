@@ -39,7 +39,7 @@
 }
 
 
-.view-header{    
+.view-header{
   height: 283px;
   min-height: 283px;
   width: 100%;
@@ -62,9 +62,9 @@
   min-height: 500px;
   padding-bottom: 50px;
 
-  background-image: url('../images/bg-body.png');
+  background-color: #39aea9;
 
   &.bg-secondary{
-    background-image: url('../images/bg-body-2.png');
+    background-color: #557b83;
   }
 }

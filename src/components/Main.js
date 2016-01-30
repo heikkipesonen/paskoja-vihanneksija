@@ -8,9 +8,9 @@ import View from './View';
 import Map from './map/Map';
 import LocationView from './location/LocationView';
 import UserBar from './user/UserBar';
-// import Landing from './Landing';
-// import Login from './Login';
-import store from '../stores/store';
+import Landing from './Landing';
+import Login from './Login';
+// import store from '../stores/store';
 
 class AppComponent extends React.Component {
 
@@ -50,21 +50,19 @@ class AppComponent extends React.Component {
   };
 
   render() {
+    // (()=>{
+    //   if (!this.state.login) {
+    //     // return (<Login onLogin={this.setLogin}></Login>);
+    //     return (<Landing setFakeLogin={this.setLogin}></Landing>);
+    //   } else {
+    //     return (
     return (
-      <Provider store={store}>
-        <View className="main-view">
-          <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
-          <LocationView location={this.state.currentLocation}></LocationView>
-          <UserBar></UserBar>
-        </View>
-      </Provider>
-    );
-    // return (
-    //   (()=>{
-    //     if (!this.state.login) {
-    //       return (<Login onLogin={this.setLogin}></Login>);
-    //       // return (<Landing setFakeLogin={this.setLogin}></Landing>);
-    //     } else {
+          <View className="main-view">
+            <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
+            <LocationView location={this.state.currentLocation}></LocationView>
+            <UserBar></UserBar>
+          </View>
+          );
     //     }
     //   })()
     //

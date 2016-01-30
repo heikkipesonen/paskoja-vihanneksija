@@ -21,9 +21,15 @@ $main-color: #c94714;
     white-space: nowrap;
     margin: 0;
     white-space: nowrap;
+    max-width: 100%;
   }
 
 }
+
+.product-info-wrapper{
+  position: relative;
+}
+
 .product-price-wrapper{
   padding-left: 16px;
 }
