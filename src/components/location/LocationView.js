@@ -105,32 +105,36 @@ class LocationView extends DragView {
         onTouchStart={this.dragStart}
         onTouchMove={this.dragMove}
         onTouchEnd={this.dragEnd}
-        className={this.getClassNames('drag-view view layout-column')}>
+        className={this.getClassNames('drag-view view layout-column location-view')}>
 
         <ScrollContainer
+          parallax="location-background"
+          background="../images/bg-test9.jpg"
           disabled={this.state.y !== this.options.min_y}
           className="view-content flex">
 
-          <div className="location-header view-header layout-column">
-            <div className="flex"></div>
-            {(()=>{
-              if (this.props.location) {
-                return (<LocationTitle key="locationTitle" location={this.state.location}></LocationTitle>);
-              }
-            })()}
-          </div>
-
-          <div className="location-body view-body">
-            {(()=>{
-              if (this.props.location) {
-                  return ([
-                    <div className="column-2" key="search">
-                      <Input onChange={this.filterChange} icon="search" label="Suodata"></Input>
-                    </div>,
-                    <ProductList key="productList" products={this.state.products.filter((product) => this.filter(product))} onClick={this.onProductClick}></ProductList>
-                  ]);
+          <div className="content-wrapper">
+            <div className="location-header view-header layout-column gradient-1-top">
+              <div className="flex"></div>
+              {(()=>{
+                if (this.props.location) {
+                  return (<LocationTitle key="locationTitle" location={this.state.location}></LocationTitle>);
                 }
-            })()}
+              })()}
+            </div>
+
+            <div className="location-body view-body gradient-1">
+              {(()=>{
+                if (this.props.location) {
+                    return ([
+                      <div className="column-2" key="search">
+                        <Input onChange={this.filterChange} icon="search" label="Suodata"></Input>
+                      </div>,
+                      <ProductList key="productList" products={this.state.products.filter((product) => this.filter(product))} onClick={this.onProductClick}></ProductList>
+                    ]);
+                  }
+              })()}
+            </div>
           </div>
 
         </ScrollContainer>

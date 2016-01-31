@@ -25,6 +25,14 @@ class ScrollContainer extends React.Component{
     };
 
     this.lastEvent = false;
+    this.parallaxRatio = 1;
+  }
+
+  setParallaxRatio() {
+    if (this.props.parallax && this.refs.parallax){
+      this.parallaxRatio = (this.refs.parallax.scrollHeight - this.refs.view.offsetHeight) / this.refs.view.scrollHeight;
+      this.parallaxRatio = this.parallaxRatio > 1 ? 1 : this.parallaxRatio;
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,6 +42,7 @@ class ScrollContainer extends React.Component{
   }
 
   componentDidMount() {
+    this.setParallaxRatio();
     this.refs.view.addEventListener('touchstart', this.onTouchStart);
     this.refs.view.addEventListener('touchmove', this.onTouchMove);
     this.refs.view.addEventListener('scroll', this.onScroll);
@@ -61,6 +70,15 @@ class ScrollContainer extends React.Component{
   }
 
   onScroll = () => {
+
+    window.requestAnimationFrame(()=>{
+
+    if (this.refs.parallax) {
+      this.refs.parallax.scrollTop = this.parallaxRatio * this.refs.view.scrollTop;
+    }
+  });
+
+
     this.setState({
       top: this.refs.view.scrollTop
     });
@@ -76,6 +94,7 @@ class ScrollContainer extends React.Component{
       return;
     }
 
+    this.setParallaxRatio();
     this.height = this.refs.view.offsetHeight;
 
     let scrollHeight = this.refs.view.scrollHeight;
@@ -117,6 +136,8 @@ class ScrollContainer extends React.Component{
       return;
     }
 
+
+
     let scrollPosition = this.refs.view.scrollTop;
     let position = this.getCursor(evt);
         this.delta.x += position.x - this.lastEvent.x;
@@ -146,8 +167,23 @@ class ScrollContainer extends React.Component{
   };
 
   render() {
-    let classNames = this.props.className ? this.props.className + ' scroll-container' : 'scroll-container';
-    return (<div className={classNames} ref="view">{this.props.children}</div>);
+    let classNames = this.props.className ? this.props.className + ' scroll-wrapper' : 'scroll-wrapper';
+    return (
+      <div className={classNames}>
+        {(()=>{
+          if (this.props.parallax) {
+              return (
+                <div className={'view scroll-parallax ' + (this.props.parallax || '')} ref="parallax">
+                <div className="parallax-content" ref="parallaxContent">
+                  <img src={this.props.background} onload={() => this.setParallaxRatio()}/>
+                </div>
+              </div>
+            )
+          }
+        })()}
+        <div className="scroll-content" ref="view">{this.props.children}</div>
+      </div>
+    );
   }
 }
 

@@ -108,7 +108,7 @@ class Cart extends DragView {
           className="view-content"
           disabled={this.state.y !== this.options.min_y}>
 
-          <div className="cart-title view-header bg-secondary layout-column">
+          <div className="cart-title view-header gradient-2-top layout-column">
             <div className="cart-title layout-row">
               <div className="flex cart-tab">
                 {this.state.productCount}
@@ -126,7 +126,7 @@ class Cart extends DragView {
             </div>
           </div>
 
-          <div className="cart-body view-body bg-secondary">
+          <div className="cart-body view-body gradient-2">
 
             <ProductList products={this.state.products}></ProductList>
 

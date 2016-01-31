@@ -1,6 +1,42 @@
-.scroll-container{
-  position: relative;
+.scroll-wrapper{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.scroll-content{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: scroll;
+
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+.view.scroll-parallax{
+  overflow-y: scroll;
+  pointer-events: none;
+-webkit-mask-image: url('../../images/viewport-mask.png');
+}
+
+.parallax-content{
+  will-change: transform;
+  pointer-events: none;
+  position: relative;
+  width: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+
+  img{
+    width: 100%;
+  }
 }
