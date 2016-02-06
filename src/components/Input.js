@@ -17,7 +17,7 @@ class Landing extends React.Component {
     if (this.refs.inputField) {
       let value = this.refs.inputField.value;
 
-      if (this.props.onChange){        
+      if (this.props.onChange){
         this.props.onChange(value);
       }
 

@@ -44,10 +44,6 @@ class UserBar extends DragView{
       <div
         ref="dragElement"
         style={this.getElementStyle()}
-        onTransitionEnd={this.animationEnd}
-        onTouchStart={this.dragStart}
-        onTouchMove={this.dragMove}
-        onTouchEnd={this.dragEnd}
         className={`view user-view drag-view layout-column ${this.getClassNames()}`}>
 
         <div className="user-view-wrapper view layout-column">
@@ -58,15 +54,17 @@ class UserBar extends DragView{
               </div>
             </div>
           </ScrollContainer>
-          <div className="user-bar layout-row">
-            <div className="user-bar-icon">
-              <i className="ion-social-facebook"></i>
-            </div>
+          <div className="user-bar">
+            <div className="layout-row">
+              <div className="user-bar-icon">
+                <i className="ion-social-facebook"></i>
+              </div>
 
-            <h3 className="flex user-title">{this.state.user.name}</h3>
+              <h3 className="flex user-title">{this.state.user.name}</h3>
 
-            <div className="user-bar-icon">
-              <i className="ion-ios-gear"></i>
+              <div className="user-bar-icon">
+                <i className="ion-ios-gear"></i>
+              </div>
             </div>
           </div>
         </div>

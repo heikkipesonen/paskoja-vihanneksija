@@ -1,0 +1,47 @@
+{
+  "title": "Producer",
+  "description": "Presents one producer",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "payment_types": {
+      "type": "array",
+      "items": {
+        "id": "string",
+        "name": "string"
+      }
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "tel": {
+          "type": "string"
+        },
+        "contact_name": {
+          "type": "string"
+        },
+        "start_datetime": {
+          "type": "integer"
+        },
+        "end_datetime": {
+          "type": "integer"
+        },
+        "location": {
+          "description": "producer location",
+          "$ref": "http://json-schema.org/geo"
+        }
+      }
+    }
+  }
+}

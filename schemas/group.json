@@ -1,0 +1,54 @@
+{
+  "title": "Group",
+  "description": "Presents one REKO-group",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "delivery_dates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "start_datetime": {
+            "type": "integer"
+          },
+          "end_datetime": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "tel": {
+          "type": "string"
+        },
+        "contact_name": {
+          "type": "string"
+        },
+        "location": {
+          "description": "producer location",
+          "$ref": "http://json-schema.org/geo"
+        }
+      }
+    }
+  }
+}

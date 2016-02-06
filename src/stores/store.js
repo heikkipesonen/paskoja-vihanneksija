@@ -22,4 +22,4 @@ let reducer = function(state, action) {
     }
 }
 
-export default window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore(reducer, initialState);
+export default createStore(reducer, initialState);

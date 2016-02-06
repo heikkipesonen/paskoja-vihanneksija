@@ -98,10 +98,6 @@ class Cart extends DragView {
       <div
         ref="dragElement"
         style={this.getElementStyle()}
-        onTransitionEnd={this.animationEnd}
-        onTouchStart={this.dragStart}
-        onTouchMove={this.dragMove}
-        onTouchEnd={this.dragEnd}
         className={this.getClassNames('cart layout-column')}>
 
         <ScrollContainer

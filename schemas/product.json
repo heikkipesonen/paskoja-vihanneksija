@@ -1,0 +1,71 @@
+{
+  "title": "Product",
+  "description": "Presents one product in any location / group",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "available": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "unit": {
+      "type": "string"
+    },
+    "package_size": {
+      "type": "number",
+      "minimum": 1
+    },
+    "package_price": {
+      "type": "number",
+      "minimum": 0
+    },
+    "category": {
+      "type": "string"
+    },
+    "subcategory": {
+      "type": "string"
+    },
+    "order_info": {
+      "type": "object",
+      "properties": {
+        "min_order": {
+          "description": "minimum amount for order to complete",
+          "type": "integer",
+          "minimum": 1
+        },
+        "start_datetime": {
+          "description": "orders accepted from",
+          "type": "integer"
+        },
+        "end_datetime": {
+          "description": "orders accepted to",
+          "type": "integer"
+        }
+      }
+    },
+    "delivery_id": {
+      "description": "delivery point and datetime",
+      "type": "string"
+    },
+    "producer_info": {
+      "description": "basic information about the producer",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

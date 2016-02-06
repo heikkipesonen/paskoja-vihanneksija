@@ -1,0 +1,54 @@
+{
+  "title": "User",
+  "description": "Registered user",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "firstname": {
+      "type": "string"
+    },
+    "lastname": {
+      "type": "string"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+              "type": "string"
+          },
+          "name": {
+              "type": "string"
+          }
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "tel": {
+          "type": "string"
+        },
+        "address":{
+          "type": "string"
+        },
+        "postal_code": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "location": {
+          "description": "producer location",
+          "$ref": "http://json-schema.org/geo"
+        }
+      }
+    }
+  }
+}

@@ -4,8 +4,9 @@ import React from 'react';
 import View from './View';
 import Input from './Input';
 import Button from './Button';
+import {Link} from 'react-router';
 
-class Landing extends React.Component {
+class Login extends React.Component {
 
   constructor(...args){
     super(...args);
@@ -14,6 +15,8 @@ class Landing extends React.Component {
       email: '',
       password: ''
     }
+
+    console.log('viddu');
   }
 
   emailChange = (value) => {
@@ -36,7 +39,7 @@ class Landing extends React.Component {
 
   render() {
     return (
-      <View className="application-landing">
+      <View className="application-landing gradient-1">
         <div className="login-wrapper layout-column  layout-center">
           <div className="icon-header icon-round">
             <i className="ion-social-facebook"></i>
@@ -51,4 +54,4 @@ class Landing extends React.Component {
   }
 }
 
-export default Landing;
+export default Login;

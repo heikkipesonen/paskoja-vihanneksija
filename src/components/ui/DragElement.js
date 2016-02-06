@@ -44,10 +44,16 @@ class DragElement extends React.Component{
   }
 
   componentDidMount() {
+    this.refs.dragElement.addEventListener('touchstart', this.dragStart);
+    this.refs.dragElement.addEventListener('touchmove', this.dragMove);
+    this.refs.dragElement.addEventListener('touchend', this.dragEnd);
     this.refs.dragElement.addEventListener('transitionend', this.animationEnd);
   }
 
   componentWillUnmount(){
+    this.refs.dragElement.removeEventListener('touchstart', this.dragStart);
+    this.refs.dragElement.removeEventListener('touchmove', this.dragMove);
+    this.refs.dragElement.removeEventListener('touchend', this.dragEnd);
     this.refs.dragElement.removeEventListener('transitionend', this.animationEnd);
   }
 
@@ -71,7 +77,9 @@ class DragElement extends React.Component{
    * @return {[type]}     [description]
    */
   dragStart = (evt) => {
+    console.log('drag starting');
     evt.stopPropagation();
+    evt.preventDefault();
 
     this.setState({
       velocity:{
@@ -91,6 +99,7 @@ class DragElement extends React.Component{
    * @return {[type]}     [description]
    */
   dragMove = (evt) => {
+    console.log('drag moving');
     evt.stopPropagation();
     evt.preventDefault();
 
@@ -229,11 +238,6 @@ class DragElement extends React.Component{
       <div
         ref="dragElement"
         style={this.getElementStyle()}
-        onTransitionEnd={this.animationEnd}
-        onTouchStart={this.dragStart}
-        onTouchMove={this.dragMove}
-        onTouchEnd={this.dragEnd}
-
         className={this.getClassNames('drag-element')}>
         {this.props.children}
       </div>

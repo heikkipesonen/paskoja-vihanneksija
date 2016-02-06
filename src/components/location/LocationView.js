@@ -5,11 +5,9 @@ import DragView from '../ui/DragView';
 import ScrollContainer from '../ui/ScrollContainer';
 import LocationTitle from './LocationTitle';
 import Input from '../Input';
-// import LocationImage from './LocationImage';
 import Cart from './Cart';
 import ProductList from '../product/ProductList';
-// import store from '../../stores/store';
-// import * as cart from '../../actions/CartActions'
+
 
 class LocationView extends DragView {
   constructor(props) {
@@ -58,6 +56,7 @@ class LocationView extends DragView {
   }
 
   componentDidMount() {
+    super.componentDidMount();
     fetch('../data/products.json').then((data) => {
       data.json().then((products) => {
         this.setState({
@@ -101,12 +100,7 @@ class LocationView extends DragView {
       <div
         ref="dragElement"
         style={this.getElementStyle()}
-        onTransitionEnd={this.animationEnd}
-        onTouchStart={this.dragStart}
-        onTouchMove={this.dragMove}
-        onTouchEnd={this.dragEnd}
-        className={this.getClassNames('drag-view view layout-column location-view')}>
-
+        className={`drag-view view layout-column location-view ${this.getClassNames()}`}>
         <ScrollContainer
           parallax="location-background"
           background="../images/bg-test9.jpg"
