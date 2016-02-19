@@ -21,6 +21,8 @@ class DragElement extends React.Component{
     this.lastEvent = false;
 
     this.options = {
+      x: true,
+      y: true,
       max_x: 0,
       max_y: 100,
       min_x: 0,
@@ -77,19 +79,15 @@ class DragElement extends React.Component{
    * @return {[type]}     [description]
    */
   dragStart = (evt) => {
-    console.log('drag starting');
-    evt.stopPropagation();
-    evt.preventDefault();
+      this.setState({
+        velocity:{
+          x:0,
+          y:0
+        },
+        direction: false
+      });
 
-    this.setState({
-      velocity:{
-        x:0,
-        y:0
-      },
-      direction: false
-    });
-
-    this.lastEvent = this.getCursor(evt);
+      this.lastEvent = this.getCursor(evt);
   };
 
 
@@ -99,11 +97,7 @@ class DragElement extends React.Component{
    * @return {[type]}     [description]
    */
   dragMove = (evt) => {
-    console.log('drag moving');
-    evt.stopPropagation();
-    evt.preventDefault();
-
-    if (!this.lastEvent){
+    if (!this.lastEvent && (this.options.x || this.options.y)){
       this.dragStart(evt);
       return;
     }
@@ -119,6 +113,14 @@ class DragElement extends React.Component{
     if (!direction) {
       direction = Math.abs(sx) > Math.abs(sy) ? 'x' : 'y';
     }
+
+    if (direction && this.options[direction]){
+      evt.stopPropagation();
+      evt.preventDefault();
+    } else {
+      return;
+    }
+
 
     // if over bounds, apply tension
     if ((this.state.x + sx > this.options.max_x && sx > 0) || (this.state.x + sx < this.options.min_x && sx < 0)){
@@ -155,7 +157,11 @@ class DragElement extends React.Component{
    * @return {[type]}     [description]
    */
   dragEnd = (evt) => {
-    evt.stopPropagation();
+    if ((this.options.x || this.options.y) && this.state.direction){
+      evt.stopPropagation();
+    } else {
+      return;
+    }
 
     // check if end position is within bounds
     // if not, apply animation to nearest position within bounds

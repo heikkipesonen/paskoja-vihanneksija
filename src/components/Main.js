@@ -31,7 +31,7 @@ class AppComponent extends React.Component {
 
   componentDidMount() {
     this.setState({
-      loading: true
+      loading: false
     });
 
     this.loadInitialData().then(() => {
@@ -52,6 +52,10 @@ class AppComponent extends React.Component {
   }
 
   loadMap() {
+    this.setState({
+      loading: true
+    });
+
     fetch('../data/locations.json').then((data) => {
       return data.json().then((response) => {
 
@@ -73,36 +77,33 @@ class AppComponent extends React.Component {
     this.loadMap();
   };
 
+  onLocationClick = (location) => {
+    this.setState({
+      currentLocation: location
+    });
+  };
+
   render() {
-    // (()=>{
-    //   if (!this.state.login) {
-    //     // return (<Login onLogin={this.setLogin}></Login>);
-    //     return (<Landing setFakeLogin={this.setLogin}></Landing>);
-    //   } else {
-    //     return (
-    // <Map markers={this.state.locations} onLocationClick={this.onLocationClick}></Map>
-    // <LocationView location={this.state.currentLocation}></LocationView>
-    // <UserBar></UserBar>
+
+    // {this.props.children}
+
     return (
       <View>
         {(()=>{
           if (!this.state.initialized) {
             return (<Landing></Landing>);
-          }
-
-          if (this.state.login){
+          } else if (this.state.login){
             return (
               <div className="view">
-                <Map></Map>
+                <Map markers={this.state.locations} onMarkerClick={this.onLocationClick}></Map>
                 <LocationView location={this.state.currentLocation}></LocationView>
                 <UserBar></UserBar>
               </div>
             );
+          } else {
+            return (<Login onLogin={this.login}></Login>);
           }
-
-          return (<Login onLogin={this.login}></Login>);
         })()}
-        {this.props.children}
       </View>
     );
   }

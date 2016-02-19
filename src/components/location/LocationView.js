@@ -102,13 +102,11 @@ class LocationView extends DragView {
         style={this.getElementStyle()}
         className={`drag-view view layout-column location-view ${this.getClassNames()}`}>
         <ScrollContainer
-          parallax="location-background"
-          background="../images/bg-test9.jpg"
           disabled={this.state.y !== this.options.min_y}
           className="view-content flex">
 
           <div className="content-wrapper">
-            <div className="location-header view-header layout-column gradient-1-top">
+            <div className="location-header view-header layout-column gradient-1-enter">
               <div className="flex"></div>
               {(()=>{
                 if (this.props.location) {

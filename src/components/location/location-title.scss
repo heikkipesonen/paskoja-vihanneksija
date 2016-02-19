@@ -2,13 +2,14 @@ $main-color: #c94714;
 
 
 .location-title{
-  color: white;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   overflow: hidden;
-
   position: relative;
+
+  margin-left: 16px;
+  margin-right: 16px;
 
   .image{
     width: 100%;
@@ -22,8 +23,12 @@ $main-color: #c94714;
     position: relative;
   }
 
+  .location-title-text h3{
+    font-weight: 300;
+    font-size: 2rem;
+  }
+
   .location-header h4{
-    font-weight: 800;
     font-size: 12pt;
   }
 }

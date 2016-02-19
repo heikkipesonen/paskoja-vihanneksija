@@ -15,8 +15,6 @@ class Login extends React.Component {
       email: '',
       password: ''
     }
-
-    console.log('viddu');
   }
 
   emailChange = (value) => {

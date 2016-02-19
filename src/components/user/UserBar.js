@@ -12,7 +12,7 @@ class UserBar extends DragView{
     this.state = {
       direction: false, // current drag direction
       x: 0,
-      y: -window.innerHeight + 50,
+      y: -window.innerHeight + 32,
       animation: 0, // current animation duration
       // speed of current event
       velocity:{
@@ -29,7 +29,7 @@ class UserBar extends DragView{
       classTolerance: 50,
       changeVelocity: 0.2,
       max_y: 0,
-      min_y: -window.innerHeight + 50,
+      min_y: -window.innerHeight + 32,
       tension: {
         left: 0,
         right: 0,
@@ -44,7 +44,7 @@ class UserBar extends DragView{
       <div
         ref="dragElement"
         style={this.getElementStyle()}
-        className={`view user-view drag-view layout-column ${this.getClassNames()}`}>
+        className={`view user-view drag-view layout-column gradient-1 ${this.getClassNames()}`}>
 
         <div className="user-view-wrapper view layout-column">
           <ScrollContainer className="view-content flex" disabled={this.state.y === this.options.min_y}>

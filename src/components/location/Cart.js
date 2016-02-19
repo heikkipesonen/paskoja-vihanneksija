@@ -23,11 +23,11 @@ class Cart extends DragView {
       productCount: 0,
       producersCount: 0,
       total: 0,
-      icon: 'ios-arrow-up',
+      icon: 'ios-arrow-right',
 
       direction: false, // current drag direction
       x: 0,
-      y: window.innerHeight - 50,
+      y: window.innerHeight - 42,
       animation: 0, // current animation duration
       // speed of current event
       velocity:{
@@ -39,7 +39,7 @@ class Cart extends DragView {
     this.setOptions({
       classTolerance: 50,
       changeVelocity: 0.2,
-      max_y: window.innerHeight - 50,
+      max_y: window.innerHeight - 42,
       min_y: 0,
       tension: {
         left: 0,
@@ -104,16 +104,13 @@ class Cart extends DragView {
           className="view-content"
           disabled={this.state.y !== this.options.min_y}>
 
-          <div className="cart-title view-header gradient-2-top layout-column">
+          <div className="view-header gradient-1 layout-column">
             <div className="cart-title layout-row">
-              <div className="flex cart-tab">
-                {this.state.productCount}
-              </div>
-              <div className="flex cart-tab" onClick={() => this.toggleOpen()}>
-                <IconButton icon={this.state.icon}></IconButton>
-              </div>
-              <div className="flex cart-tab">
+              <span className="flex"></span>
+              <div className="cart-tab">
+                <span className="no-wrap">tilaa tuotteet&nbsp;|&nbsp;</span>
                 <Currency value={this.state.total}></Currency>
+                <IconButton icon={this.state.icon}></IconButton>
               </div>
             </div>
 
@@ -122,7 +119,7 @@ class Cart extends DragView {
             </div>
           </div>
 
-          <div className="cart-body view-body gradient-2">
+          <div className="cart-body view-body gradient-1">
 
             <ProductList products={this.state.products}></ProductList>
 

@@ -3,7 +3,7 @@
   border: none;
   background-color: transparent;
   display: block;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid;
   border-radius: 0;
   font-weight: 200;
   font-size: 1.3rem;
@@ -12,7 +12,6 @@
 }
 
 .input-container{
-  color: white;
   position: relative;
   padding-top: 20px;
   width: 100%;
