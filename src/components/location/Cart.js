@@ -104,7 +104,7 @@ class Cart extends DragView {
           className="view-content"
           disabled={this.state.y !== this.options.min_y}>
 
-          <div className="view-header gradient-1 layout-column">
+          <div className="gradient-1 layout-column">
             <div className="cart-title layout-row">
               <span className="flex"></span>
               <div className="cart-tab">

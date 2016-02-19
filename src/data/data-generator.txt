@@ -2,35 +2,28 @@
   '{{repeat(100)}}',
   {
     "id":"{{guid()}}",
-    "type":"{{random('market', 'meeting', 'farm')}}",
-    "name":"{{lorem(4, 'words')}}",
+    "name":"{{lorem(2, 'words')}}",
     "description":"{{lorem(1, 'paragraphs')}}",
-    "contact":{
-		"id":"{{guid()}}",
-      "provider":"{{company()}}",
-      "contact":"{{firstName()}} {{surname()}}",
-      "tel":"{{phone()}}",
-      "email":"{{email()}}",
-      "city":"{{city()}}",
-      "country":"{{country()}}",
-      "street":"{{street()}}"
-    },
-    "active":[
-      '{{repeat(1, 10)}}',
+    "delivery_dates":[
+        '{{repeat(1, 10)}}',
       {
-	    "id":"{{guid()}}",
-        "start": "{{date(null,null,'ISODateTimeTZ')}}",
-        "end": "{{date(null,null,'ISODateTimeTZ')}}",
+        "id":"{{guid()}}",
+        "start_datetime": "{{date(null,null, 'ISODateTimeTZ')}}",
+        "end_datetime": "{{date(null,null, 'ISODateTimeTZ')}}"
       }
     ],
-    "position":{
-		"id":"{{guid()}}",
-      "lat":"{{floating(60,68)}}",
-      "lng":"{{floating(20,30)}}"
+    "contact":{
+      "tel":"{{phone()}}",
+      "email":"{{email()}}",
+      "first_name":"{{firstName()}}",
+	  "last_name":"{{surname()}}",
+      "location":{
+		"lat":"{{floating(60,68)}}",
+	    "lng":"{{floating(20,30)}}"
+      }
     }
   }
 ]
-
 
 
 [

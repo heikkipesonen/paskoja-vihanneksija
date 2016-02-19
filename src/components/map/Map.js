@@ -18,35 +18,26 @@ class Map extends React.Component {
 
   componentDidMount () {
     this.map = new google.maps.Map(this.refs.mapLayer, config);
-    this.updateMarkers(this.props.markers);
-  }
-
-  shouldComponentUpdate() {
-    return false;
+    this.updateLocations(this.props.markers);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.updateMarkers(nextProps.markers);
+    this.updateLocations(nextProps.markers);
   }
 
-  updateMarkers(markers) {
-    if (!markers) {
-      markers = this.state.markers;
-    }
+  updateLocations(locations) {
+    let markers = [];
 
-    markers.forEach((location) => {
-      this.addLocation(location);
+    this.state.markers.forEach((marker) => {
+      marker.setMap(null);
     });
-  }
 
-  hasLocation(location) {
-    return !!this.locationIds[location.id];
-  }
+    Object.keys(locations).forEach((locationId) => {
+      let location = locations[locationId];
+      location.id = locationId;
 
-  addLocation(location) {
-    if (!this.hasLocation(location)) {
       let markerOptions = {
-        position: new google.maps.LatLng(location.position.lat, location.position.lng),
+        position: new google.maps.LatLng(location.contact.location.lat, location.contact.location.lng),
         icon: {
           url:'images/marker-market.png',
           // scaledSize: new google.maps.Size(94/2,137/2)
@@ -56,19 +47,16 @@ class Map extends React.Component {
         data:location
       };
 
-      this.locationIds[location.id] = true;
-
       var marker = new google.maps.Marker(markerOptions);
       marker.setMap(this.map);
-
       mapUtils.on('click', marker, () => this.markerClick(marker));
 
-      this.state.markers.push(marker);
+      markers.push(marker);
+    });
 
-      this.setState({
-        markers: this.state.markers
-      });
-    }
+    this.setState({
+      markers: markers
+    });
   }
 
   markerClick(marker){

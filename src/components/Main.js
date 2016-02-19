@@ -2,17 +2,19 @@ require('normalize.css');
 require('styles/App.scss');
 require('ionicons/scss/ionicons.scss');
 
+import config from '../config';
 import React from 'react';
-import {Provider} from 'react-redux';
+import Firebase from 'firebase';
+// import {Provider} from 'react-redux';
 
 import View from './View';
 import Map from './map/Map';
-import Login from './Login';
 import LocationView from './location/LocationView';
 import UserBar from './user/UserBar';
-import Landing from './Landing';
+// import Landing from './Landing';
+// import Login from './Login';
 
-import store from '../stores/store';
+// import store from '../stores/store';
 
 class AppComponent extends React.Component {
 
@@ -23,59 +25,23 @@ class AppComponent extends React.Component {
       initialized: false,
       loading: true,
       login: false,
+
       locations: [],
+
       currentLocation: null,
       locationVisible: false
     };
   }
 
-  componentDidMount() {
-    this.setState({
-      loading: false
-    });
+  componentWillMount() {
+    this.locationsRef = new Firebase(config.url + '/locations');
 
-    this.loadInitialData().then(() => {
+    this.locationsRef.on('value', (locationsSnapshot) => {
       this.setState({
-        initialized: true
-      });
-    })
-  }
-
-  loadInitialData() {
-    return new Promise((resolve, reject) => {
-      setTimeout(()=> {
-        resolve({
-          ok: true
-        });
-      }, 1500);
-    });
-  }
-
-  loadMap() {
-    this.setState({
-      loading: true
-    });
-
-    fetch('../data/locations.json').then((data) => {
-      return data.json().then((response) => {
-
-        setTimeout(()=>{
-          this.setState({
-            loading: false,
-            locations: response
-          });
-        }, 1500);
+        locations: locationsSnapshot.val()
       });
     });
   }
-
-  login = (data) => {
-    this.setState({
-      login: true
-    });
-
-    this.loadMap();
-  };
 
   onLocationClick = (location) => {
     this.setState({
@@ -84,26 +50,11 @@ class AppComponent extends React.Component {
   };
 
   render() {
-
-    // {this.props.children}
-
     return (
       <View>
-        {(()=>{
-          if (!this.state.initialized) {
-            return (<Landing></Landing>);
-          } else if (this.state.login){
-            return (
-              <div className="view">
-                <Map markers={this.state.locations} onMarkerClick={this.onLocationClick}></Map>
-                <LocationView location={this.state.currentLocation}></LocationView>
-                <UserBar></UserBar>
-              </div>
-            );
-          } else {
-            return (<Login onLogin={this.login}></Login>);
-          }
-        })()}
+        <Map markers={this.state.locations} onMarkerClick={this.onLocationClick}></Map>
+        <LocationView location={this.state.currentLocation}></LocationView>
+        <UserBar></UserBar>
       </View>
     );
   }

@@ -17,6 +17,9 @@ class LocationTitle extends React.Component {
               <p>{this.props.location.contact.street}</p>
               <p>{this.props.location.contact.city}</p>
             </div>
+            <div className="location-description">
+              <p>{this.props.location.description}</p>
+            </div>
           </div>
         </div>
       </div>

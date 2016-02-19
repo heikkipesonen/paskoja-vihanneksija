@@ -8,6 +8,7 @@ import Input from '../Input';
 import Cart from './Cart';
 import ProductList from '../product/ProductList';
 
+import Firebase from 'firebase';
 
 class LocationView extends DragView {
   constructor(props) {
@@ -17,6 +18,8 @@ class LocationView extends DragView {
       location: null,
 
       filter: '',
+
+      productsRef: null,
       products: [],
       selectedProducts: [],
 
@@ -47,6 +50,9 @@ class LocationView extends DragView {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location && nextProps.location !== this.props.location){
+
+
+
       this.setState({
         location: nextProps.location,
         y: this.options.min_y,
@@ -57,13 +63,19 @@ class LocationView extends DragView {
 
   componentDidMount() {
     super.componentDidMount();
-    fetch('../data/products.json').then((data) => {
-      data.json().then((products) => {
-        this.setState({
-          products: products
-        });
-      })
-    });
+    fetch('../data.json').then((blob) => {
+      blob.json().then((data) => {
+        console.log(data.products);
+      });
+    })
+
+    // fetch('../data/products.json').then((data) => {
+    //   data.json().then((products) => {
+    //     this.setState({
+    //       products: products
+    //     });
+    //   })
+    // });
   }
 
   onProductClick = (product) => {
