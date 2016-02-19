@@ -1,7 +1,7 @@
 require('./landing.scss');
 
 import React from 'react';
-import View from './View';
+import View from '../ui/View';
 
 class Landing extends React.Component {
   render() {

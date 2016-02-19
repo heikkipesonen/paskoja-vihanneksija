@@ -1,12 +1,12 @@
 require('./cart.scss');
 
 import React from 'react';
-import ScrollContainer from '../ui/ScrollContainer';
-import IconButton from '../IconButton';
-import DragView from '../ui/DragView';
+import ScrollContainer from '../../ui/ScrollContainer';
+import IconButton from '../../ui/IconButton';
+import DragView from '../../ui/DragView';
 import ProductList from '../product/ProductList';
-import Currency from '../Currency';
-import Button from '../Button';
+import Currency from '../../Currency';
+import Button from '../../ui/Button';
 
 // import { connect } from 'react-redux';
 

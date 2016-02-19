@@ -1,8 +1,8 @@
 require('./user-bar.scss');
 
 import React from 'react';
-import DragView from '../ui/DragView';
-import ScrollContainer from '../ui/ScrollContainer';
+import DragView from '../../ui/DragView';
+import ScrollContainer from '../../ui/ScrollContainer';
 
 class UserBar extends DragView{
 

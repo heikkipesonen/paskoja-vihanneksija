@@ -1,10 +1,10 @@
 require('./locationView.scss');
 
 import React from 'react';
-import DragView from '../ui/DragView';
-import ScrollContainer from '../ui/ScrollContainer';
+import DragView from '../../ui/DragView';
+import ScrollContainer from '../../ui/ScrollContainer';
 import LocationTitle from './LocationTitle';
-import Input from '../Input';
+import Input from '../../ui/Input';
 import Cart from './Cart';
 import ProductList from '../product/ProductList';
 

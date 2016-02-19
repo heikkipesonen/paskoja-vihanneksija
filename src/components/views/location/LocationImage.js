@@ -1,7 +1,7 @@
 require('./location-image.scss');
 
 import React from 'react';
-import ImageLoader from '../ImageLoader';
+import ImageLoader from '../../ImageLoader';
 
 class LocationImage extends React.Component{
 
@@ -10,7 +10,7 @@ class LocationImage extends React.Component{
 
     return (
       <div className={classNames}>
-        <ImageLoader src="images/food.jpg"></ImageLoader>        
+        <ImageLoader src="images/food.jpg"></ImageLoader>
       </div>
     );
   }

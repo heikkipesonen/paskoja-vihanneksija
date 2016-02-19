@@ -1,7 +1,7 @@
 require('./landing.scss');
 
 import React from 'react';
-import View from './View';
+import View from '../ui/View';
 import Input from './Input';
 import Button from './Button';
 import {Link} from 'react-router';

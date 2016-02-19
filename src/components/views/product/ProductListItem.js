@@ -1,8 +1,8 @@
 require('./product-list-item.scss');
 
 import React from 'react';
-import Currency from '../Currency';
-import DragElement from '../ui/DragElement';
+import Currency from '../../Currency';
+import DragElement from '../../ui/DragElement';
 
 class ProductListItem extends DragElement {
   constructor(props){

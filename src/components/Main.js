@@ -7,10 +7,10 @@ import React from 'react';
 import Firebase from 'firebase';
 // import {Provider} from 'react-redux';
 
-import View from './View';
+import View from './ui/View';
 import Map from './map/Map';
-import LocationView from './location/LocationView';
-import UserBar from './user/UserBar';
+import LocationView from './views/location/LocationView';
+import UserBar from './views/user/UserBar';
 // import Landing from './Landing';
 // import Login from './Login';
 
