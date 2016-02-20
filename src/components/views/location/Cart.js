@@ -7,38 +7,28 @@ import DragView from '../../ui/DragView';
 import ProductList from '../product/ProductList';
 import Currency from '../../Currency';
 import Button from '../../ui/Button';
+import {Map} from 'immutable';
 
-// import { connect } from 'react-redux';
-
-// @connect(state => ({
-//   carts: state.carts
-// }))
-
-class Cart extends DragView {
+class Cart extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      products: [],
-      productCount: 0,
-      producersCount: 0,
-      total: 0,
-      icon: 'ios-arrow-right',
 
-      direction: false, // current drag direction
-      x: 0,
-      y: window.innerHeight - 42,
-      animation: 0, // current animation duration
-      // speed of current event
-      velocity:{
-        x: 0,
-        y: 0
-      }
+      y: 0,
+      products: null,
+      productList: new Map(),
+
+      sum: 0,
+      count: 0,
+      icon: 'ios-arrow-right'
     };
 
-    this.setOptions({
+    this.options = {
       classTolerance: 50,
       changeVelocity: 0.2,
+      x: 0,
+      y: window.innerHeight - 42,
       max_y: window.innerHeight - 42,
       min_y: 0,
       tension: {
@@ -47,43 +37,54 @@ class Cart extends DragView {
         top: 0,
         bottom: 0.3
       }
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      products: this.props.products || new Map()
     });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.location !== this.props.location ||
-      nextState.y !== this.state.y ||
-      nextState.x !== this.state.x ||
-      nextState.animation !== this.state.animation ||
-      nextProps.products.length !== this.props.products.length;
+    return nextState.productList !== this.state.productList || this.state.y !== nextState.y;
+  }
+
+
+  /**
+   * update product list to match new props list
+   *
+   * @param  {[type]} products immutable.map
+   * @return {[type]}          [description]
+   */
+  updateProductList(products) {
+    let productList = new Map();
+    let sum = 0;
+    let count = 0;
+
+    products.forEach((product, id) => {
+      let copy = JSON.parse(JSON.stringify(product));
+      let available = product.count;
+      let price = product.count * product.package_price;
+
+      sum += price;
+      count++;
+
+      copy.package_price = price;
+      copy.available = product.count;
+
+      productList = productList.set(id, copy);
+    });
+
+    this.setState({
+      count,
+      sum,
+      productList
+    });
   }
 
   componentWillReceiveProps(nextProps) {
     this.updateProductList(nextProps.products);
-  }
-
-  updateProductList(productList) {
-    productList = productList || this.state.products;
-    let uniqueProductsList = [];
-
-    productList.forEach((product) => {
-      let hasProduct = uniqueProductsList.find((a) => { return a.id === product.id});
-      if (hasProduct){
-        hasProduct.available++;
-      } else {
-        let newProduct = Object.assign({}, product);
-        newProduct.available = 1;
-        uniqueProductsList.push(newProduct);
-      }
-    });
-
-    this.setState({
-      products: uniqueProductsList,
-      productCount: productList.length,
-      total: uniqueProductsList.reduce((a,b) => {
-        return a + b.price * b.available;
-      }, 0)
-    });
   }
 
   toggleOpen() {
@@ -93,12 +94,15 @@ class Cart extends DragView {
     });
   }
 
+  dragViewUpdate = (state) => {
+    this.setState({
+      y: state.y
+    });
+  };
+
   render() {
     return (
-      <div
-        ref="dragElement"
-        style={this.getElementStyle()}
-        className={this.getClassNames('cart layout-column')}>
+      <DragView className='cart layout-column' options={this.options} onChange={this.dragViewUpdate}>
 
         <ScrollContainer
           className="view-content"
@@ -109,7 +113,7 @@ class Cart extends DragView {
               <span className="flex"></span>
               <div className="cart-tab">
                 <span className="no-wrap">tilaa tuotteet&nbsp;|&nbsp;</span>
-                <Currency value={this.state.total}></Currency>
+                <Currency value={this.state.sum}></Currency>
                 <IconButton icon={this.state.icon}></IconButton>
               </div>
             </div>
@@ -121,20 +125,20 @@ class Cart extends DragView {
 
           <div className="cart-body view-body gradient-1">
 
-            <ProductList products={this.state.products}></ProductList>
+            <ProductList products={this.state.productList}></ProductList>
 
             <div className="cart-summary layout-column">
               <div className="layout-row">
                 <span>Tuotteita yhteensä:&nbsp;</span>
-                <span>{this.state.productCount}kpl</span>
+                <span>{this.state.count}kpl</span>
               </div>
 
-              <Currency value={this.state.total}></Currency>
-              <Button className="flex-80" onClick={this.login} label="Osta tuotteet"></Button>
+              <Currency value={this.state.sum}></Currency>
+              <Button className="flex-80" label="Osta tuotteet"></Button>
             </div>
           </div>
         </ScrollContainer>
-      </div>
+      </DragView>
     );
   }
 

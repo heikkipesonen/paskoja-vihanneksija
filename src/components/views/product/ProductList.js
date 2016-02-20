@@ -2,19 +2,43 @@ require('./product-list.scss');
 
 import React from 'react';
 import ProductListItem from './ProductListItem';
+import {Map} from 'immutable';
+
 
 class ProductList extends React.Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      list: new Map()
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      list: new Map(this.props.products)
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      list: new Map(nextProps.products)
+    });
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
-    // TODO: fix this shit
-    return this.props.products.length !== nextProps.products.length;
+    return nextState.list !== this.state.list;
   }
 
   render() {
     return (
       <div className="product-list layout-column">
-        {this.props.products.map((product, productIndex) => {
-          return (<ProductListItem product={product} key={productIndex} onClick={(product) => this.props.onClick(product)}></ProductListItem>);
-        })}
+        {(()=>{
+          return this.state.list.map((product, key) => {
+            return (<ProductListItem product={product} key={key} onClick={(product) => this.props.onClick(key)}></ProductListItem>);
+          }).toArray();
+        })()}
       </div>
     );
   }

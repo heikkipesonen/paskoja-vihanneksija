@@ -5,10 +5,16 @@ import DragView from '../../ui/DragView';
 import ScrollContainer from '../../ui/ScrollContainer';
 import LocationTitle from './LocationTitle';
 import Input from '../../ui/Input';
+import Timespan from '../../ui/Timespan';
 import Cart from './Cart';
 import ProductList from '../product/ProductList';
 
+import {Time} from '../../helpers/Time';
+
+import config from '../../../config';
 import Firebase from 'firebase';
+
+import {Map} from 'immutable';
 
 class LocationView extends DragView {
   constructor(props) {
@@ -17,11 +23,11 @@ class LocationView extends DragView {
     this.state = {
       location: null,
 
-      filter: '',
+      products: new Map(),
+      cart: new Map(),
 
-      productsRef: null,
-      products: [],
-      selectedProducts: [],
+      deliveryDates: {},
+      currentDelivery: null,
 
       direction: false, // current drag direction
       x: 0,
@@ -48,64 +54,131 @@ class LocationView extends DragView {
     });
   }
 
+  componentWillMount() {
+    // this.locationRef =
+  }
+
+  updateLocation(location){
+
+    if (this.deliveryRef) {
+      this.deliveryRef.off();
+    }
+
+    this.setState({
+      products: new Map(),
+      cart: new Map(),
+      location: location,
+      y: this.options.min_y,
+      animation: this.options.animationDuration
+    });
+
+    this.deliveryRef = new Firebase(config.url + '/deliveries/' + location.id)
+      // .orderByChild('start_datetime')
+      .once('value', (snapshot) => {
+        // let dates = snapshot.val();
+        // let deliveries = Object.keys(dates).map((dateId) => {
+        //   dates[dateId].id = dateId;
+        //   return dates[dateId];
+        // });
+        //
+        // fetch('../data/products.json').then((blob) => {
+        //   let productsRef = new Firebase(config.url + '/products');
+        //   blob.json().then((data) => {
+        //     console.log(data);
+        //
+        //     deliveries.forEach((delivery) => {
+        //       let dref = productsRef.child(delivery.id);
+        //
+        //       data.forEach((product) => {
+        //         dref.push().set(product);
+        //       });
+        //     });
+        //   });
+        // });
+        //
+        // deliveries.sort((a,b) => {
+        //   return a.start_datetime - b.start_datetime;
+        // });
+
+        let deliveries = snapshot.val();
+        this.setState({
+          deliveryDates: deliveries,
+          currentDelivery: deliveries[Object.keys(deliveries)[0]]
+        });
+
+        this.getProducts(Object.keys(deliveries)[0]);
+      });
+  }
+
+  getProducts(deliveryId) {
+    if (this.productsRef){
+      this.productsRef.off();
+    }
+
+    this.productsRef = new Firebase(config.url + '/products/' + deliveryId);
+    this.productsRef.on('value', (snapshot) => {
+
+      console.log('PRODUCTS VALUE UPDATED',snapshot.val());
+      this.setState({
+        products: new Map(snapshot.val())
+      });
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.location && nextProps.location !== this.props.location){
+      console.log(this.props.location);
 
 
-
-      this.setState({
-        location: nextProps.location,
-        y: this.options.min_y,
-        animation: this.options.animationDuration
-      });
+      this.updateLocation(nextProps.location);
     }
   }
 
   componentDidMount() {
     super.componentDidMount();
-    fetch('../data.json').then((blob) => {
-      blob.json().then((data) => {
-        console.log(data.products);
-      });
+
+    if (this.props.location){
+      this.updateLocation(this.props.location);
+    }
+  }
+
+  addProduct(id) {
+    let product = this.state.products.get(id);
+    let cart = this.state.cart;
+
+    if (!cart.has(id)){
+      product.count = 1;
+      cart = cart.set(id, product);
+    } else {
+      let cartProduct = cart.get(id);
+      cartProduct.count++;
+
+      cart = cart.set(id, cartProduct);
+    }
+
+    this.setState({
+      cart: cart
+    });
+
+    console.log(cart.toArray());
+  }
+
+  onProductClick = (productId) => {
+    this.productsRef.child(productId).transaction((current) => {
+      if (current.available > 0){
+          current.available--;
+          return current;
+      }
+      return;
+    }, (error, success) => {
+      console.log(error, success);
+
+      if (success) {
+        this.addProduct(productId);
+      }
     })
-
-    // fetch('../data/products.json').then((data) => {
-    //   data.json().then((products) => {
-    //     this.setState({
-    //       products: products
-    //     });
-    //   })
-    // });
-  }
-
-  onProductClick = (product) => {
-
-    // make store here
-    // to add things into carts
-    this.setState({
-      selectedProducts: [...this.state.selectedProducts, product]
-    });
-
+    console.log(productId);
   };
-
-  filterChange = (value) => {
-    this.setState({
-      filter: value
-    });
-  };
-
-  filter (product){
-    return product.name.indexOf(this.state.filter) > -1;
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.location !== this.props.location ||
-      nextState.y !== this.state.y ||
-      nextState.x !== this.state.x ||
-      nextState.animation !== this.state.animation ||
-      nextState.selectedProducts.length !== this.state.selectedProducts.length ||
-      nextState.filter !== this.state.filter;
-  }
 
   render() {
     return (
@@ -113,6 +186,7 @@ class LocationView extends DragView {
         ref="dragElement"
         style={this.getElementStyle()}
         className={`drag-view view layout-column location-view ${this.getClassNames()}`}>
+
         <ScrollContainer
           disabled={this.state.y !== this.options.min_y}
           className="view-content flex">
@@ -128,21 +202,26 @@ class LocationView extends DragView {
             </div>
 
             <div className="location-body view-body gradient-1">
+
               {(()=>{
                 if (this.props.location) {
-                    return ([
-                      <div className="column-2" key="search">
-                        <Input onChange={this.filterChange} icon="search" label="Suodata"></Input>
-                      </div>,
-                      <ProductList key="productList" products={this.state.products.filter((product) => this.filter(product))} onClick={this.onProductClick}></ProductList>
-                    ]);
-                  }
+                  return (
+                    <div className="product-list-wrapper">
+                      <div className="layout-center layout-column">
+                        <h3 className="sub-title">Noutoaika</h3>
+                        <Timespan className="layout-column layout-center" timespan={this.state.currentDelivery}></Timespan>
+                      </div>
+                      <ProductList products={this.state.products} onClick={this.onProductClick}></ProductList>
+                    </div>
+                  );
+                }
               })()}
             </div>
           </div>
 
         </ScrollContainer>
-        <Cart products={this.state.selectedProducts}></Cart>
+
+        <Cart products={this.state.cart}></Cart>
       </div>
     );
   }

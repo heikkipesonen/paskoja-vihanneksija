@@ -40,7 +40,37 @@ class AppComponent extends React.Component {
       this.setState({
         locations: locationsSnapshot.val()
       });
+
+      // let locations = locationsSnapshot.val();
+
+      // Object.keys(locations).forEach((locationId) => {
+      //   let location = locations[locationId];
+      //   delete location.delivery_dates;
+      //
+      //   this.locationsRef.child(locationId).set(location);
+      // });
+
+      // Object.keys(locations).forEach((locationId) => {
+      //   let locationDeliveries = deliveryRef.child(locationId);
+      //   let currentLocation = locations[locationId];
+      //
+      //   currentLocation.delivery_dates.forEach((delivery) => {
+      //     locationDeliveries.push().set(delivery);
+      //   });
+      // });
     });
+
+
+
+    // location.delivery_dates.forEach((date) => {
+    //   this.deliveryRef.push().set(date);
+    // });
+
+    // let locations = locationsSnapshot.val();
+
+    // locations.forEach((location) => {
+    //   deliveryRef.child(location.id)
+    // });
   }
 
   onLocationClick = (location) => {

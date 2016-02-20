@@ -7,7 +7,8 @@
   text-align: center;
 }
 
-p,h1,h2,h3,h4{
+p,h1,h2,h3,h4,h5,h6{
+  // margin: 0;
   margin: 0.5rem 0;
 }
 
@@ -19,6 +20,16 @@ body, html{
 h1,h2,h3,h4 {
   text-transform: uppercase;
   font-weight: 800;
+}
+
+.main-title{
+  font-weight: 300;
+  font-size: 2rem;
+}
+
+.sub-title{
+  font-weight: 300;
+  font-size: 1.5rem;
 }
 
 .icon-header{

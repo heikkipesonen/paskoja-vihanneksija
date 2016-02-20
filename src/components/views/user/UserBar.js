@@ -55,7 +55,7 @@ class UserBar extends DragView{
             </div>
           </ScrollContainer>
           <div className="user-bar">
-            <div className="layout-row">
+            <div className="layout-row layout-center">
               <div className="user-bar-icon">
                 <i className="ion-social-facebook"></i>
               </div>

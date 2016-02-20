@@ -39,13 +39,30 @@ class DragElement extends React.Component{
     };
   }
 
+
+  componentWillReceiveProps(nextProps) {
+    this.setOptions(nextProps.options);
+  }
+
   setOptions(options) {
     for (let i in options) {
       this.options[i] = options[i];
     }
+
+    if (options && options.x) {
+      this.setState({x: options.x});
+    }
+
+    if (options && options.y) {
+      this.setState({y: options.y});
+    }
   }
 
   componentDidMount() {
+    if (this.props.options) {
+      this.setOptions(this.props.options);
+    }
+
     this.refs.dragElement.addEventListener('touchstart', this.dragStart);
     this.refs.dragElement.addEventListener('touchmove', this.dragMove);
     this.refs.dragElement.addEventListener('touchend', this.dragEnd);
@@ -191,6 +208,12 @@ class DragElement extends React.Component{
       y: position.y || 0,
       animation: animation || 0
     });
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.props.onChange) {
+      this.props.onChange(nextState);
+    }
   }
 
   /**
