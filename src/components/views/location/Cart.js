@@ -9,26 +9,33 @@ import Currency from '../../Currency';
 import Button from '../../ui/Button';
 import {Map} from 'immutable';
 
-class Cart extends React.Component {
+class Cart extends DragView {
   constructor(props) {
     super(props);
 
     this.state = {
 
-      y: 0,
       products: null,
       productList: new Map(),
 
       sum: 0,
       count: 0,
-      icon: 'ios-arrow-right'
-    };
+      icon: 'ios-arrow-right',
 
-    this.options = {
-      classTolerance: 50,
-      changeVelocity: 0.2,
+      direction: false, // current drag direction
       x: 0,
       y: window.innerHeight - 42,
+      animation: 0, // current animation duration
+      // speed of current event
+      velocity:{
+        x: 0,
+        y: 0
+      }
+    };
+
+    this.setOptions({
+      classTolerance: 50,
+      changeVelocity: 0.2,
       max_y: window.innerHeight - 42,
       min_y: 0,
       tension: {
@@ -37,51 +44,76 @@ class Cart extends React.Component {
         top: 0,
         bottom: 0.3
       }
-    };
+    });
   }
 
   componentDidMount() {
+    super.componentDidMount();
+
     this.setState({
       products: this.props.products || new Map()
     });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return nextState.productList !== this.state.productList || this.state.y !== nextState.y;
+    return nextState.productList !== this.state.productList ||
+      nextState.y !== this.state.y ||
+      nextState.x !== this.state.x ||
+      nextState.animation !== this.state.animation;
   }
 
-
-  /**
-   * update product list to match new props list
-   *
-   * @param  {[type]} products immutable.map
-   * @return {[type]}          [description]
-   */
   updateProductList(products) {
     let productList = new Map();
     let sum = 0;
     let count = 0;
 
     products.forEach((product, id) => {
-      let copy = JSON.parse(JSON.stringify(product));
+
+
+
       let available = product.count;
       let price = product.count * product.package_price;
 
       sum += price;
       count++;
 
-      copy.package_price = price;
-      copy.available = product.count;
-
-      productList = productList.set(id, copy);
+      productList = productList.set(id, product);
     });
-
+console.log(productList);
     this.setState({
       count,
       sum,
       productList
     });
   }
+  //
+  // componentWillReceiveProps(nextProps) {
+  //   this.updateProductList(nextProps.products);
+  // }
+  //
+  // updateProductList(productList) {
+  //   productList = productList || this.state.products;
+  //   let uniqueProductsList = [];
+  //
+  //   productList.forEach((product) => {
+  //     let hasProduct = uniqueProductsList.find((a) => { return a.id === product.id});
+  //     if (hasProduct){
+  //       hasProduct.available++;
+  //     } else {
+  //       let newProduct = Object.assign({}, product);
+  //       newProduct.available = 1;
+  //       uniqueProductsList.push(newProduct);
+  //     }
+  //   });
+  //
+  //   this.setState({
+  //     products: uniqueProductsList,
+  //     productCount: productList.length,
+  //     total: uniqueProductsList.reduce((a,b) => {
+  //       return a + b.price * b.available;
+  //     }, 0)
+  //   });
+  // }
 
   componentWillReceiveProps(nextProps) {
     this.updateProductList(nextProps.products);
@@ -94,15 +126,12 @@ class Cart extends React.Component {
     });
   }
 
-  dragViewUpdate = (state) => {
-    this.setState({
-      y: state.y
-    });
-  };
-
   render() {
     return (
-      <DragView className='cart layout-column' options={this.options} onChange={this.dragViewUpdate}>
+      <div
+        ref="dragElement"
+        style={this.getElementStyle()}
+        className={this.getClassNames('cart layout-column')}>
 
         <ScrollContainer
           className="view-content"
@@ -138,7 +167,7 @@ class Cart extends React.Component {
             </div>
           </div>
         </ScrollContainer>
-      </DragView>
+      </div>
     );
   }
 

@@ -60,10 +60,6 @@ class LocationView extends DragView {
 
   updateLocation(location){
 
-    if (this.deliveryRef) {
-      this.deliveryRef.off();
-    }
-
     this.setState({
       products: new Map(),
       cart: new Map(),
@@ -72,9 +68,9 @@ class LocationView extends DragView {
       animation: this.options.animationDuration
     });
 
-    this.deliveryRef = new Firebase(config.url + '/deliveries/' + location.id)
+    this.deliveryRef = new Firebase(config.url + '/deliveries/' + location.id);
       // .orderByChild('start_datetime')
-      .once('value', (snapshot) => {
+    this.deliveryRef.once('value', (snapshot) => {
         // let dates = snapshot.val();
         // let deliveries = Object.keys(dates).map((dateId) => {
         //   dates[dateId].id = dateId;

@@ -43,17 +43,6 @@ class DragView extends DragElement{
       this.lastEvent = false;
       this._dragStarted = false;
     };
-
-    render(){
-      return (
-        <div
-          ref="dragElement"
-          style={this.getElementStyle()}
-          className={this.getClassNames()}>
-          {this.props.children}
-        </div>
-      );
-    }
 }
 
 export default DragView;
