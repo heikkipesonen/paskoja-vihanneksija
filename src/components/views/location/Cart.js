@@ -79,44 +79,18 @@ class Cart extends DragView {
 
       productList = productList.set(id, product);
     });
-console.log(productList);
+
     this.setState({
       count,
       sum,
       productList
     });
   }
-  //
-  // componentWillReceiveProps(nextProps) {
-  //   this.updateProductList(nextProps.products);
-  // }
-  //
-  // updateProductList(productList) {
-  //   productList = productList || this.state.products;
-  //   let uniqueProductsList = [];
-  //
-  //   productList.forEach((product) => {
-  //     let hasProduct = uniqueProductsList.find((a) => { return a.id === product.id});
-  //     if (hasProduct){
-  //       hasProduct.available++;
-  //     } else {
-  //       let newProduct = Object.assign({}, product);
-  //       newProduct.available = 1;
-  //       uniqueProductsList.push(newProduct);
-  //     }
-  //   });
-  //
-  //   this.setState({
-  //     products: uniqueProductsList,
-  //     productCount: productList.length,
-  //     total: uniqueProductsList.reduce((a,b) => {
-  //       return a + b.price * b.available;
-  //     }, 0)
-  //   });
-  // }
 
   componentWillReceiveProps(nextProps) {
-    this.updateProductList(nextProps.products);
+    if (nextProps.products !== this.props.products){
+      this.updateProductList(nextProps.products);
+    }
   }
 
   toggleOpen() {

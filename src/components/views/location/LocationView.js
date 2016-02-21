@@ -59,7 +59,6 @@ class LocationView extends DragView {
   }
 
   updateLocation(location){
-
     this.setState({
       products: new Map(),
       cart: new Map(),
@@ -72,7 +71,7 @@ class LocationView extends DragView {
       // .orderByChild('start_datetime')
     this.deliveryRef.once('value', (snapshot) => {
         // let dates = snapshot.val();
-        // let deliveries = Object.keys(dates).map((dateId) => {
+        // let dlv = Object.keys(dates).map((dateId) => {
         //   dates[dateId].id = dateId;
         //   return dates[dateId];
         // });
@@ -82,7 +81,7 @@ class LocationView extends DragView {
         //   blob.json().then((data) => {
         //     console.log(data);
         //
-        //     deliveries.forEach((delivery) => {
+        //     dlv.forEach((delivery) => {
         //       let dref = productsRef.child(delivery.id);
         //
         //       data.forEach((product) => {
@@ -155,8 +154,6 @@ class LocationView extends DragView {
     this.setState({
       cart: cart
     });
-
-    console.log(cart.toArray());
   }
 
   onProductClick = (productId) => {
@@ -173,7 +170,6 @@ class LocationView extends DragView {
         this.addProduct(productId);
       }
     })
-    console.log(productId);
   };
 
   render() {
